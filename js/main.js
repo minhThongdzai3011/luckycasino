@@ -211,6 +211,13 @@ function getGameInfo(gameName) {
             minBet: '100đ',
             maxWin: 'x3'
         },
+        bongda: {
+            name: 'Bóng Đá',
+            icon: '⚽',
+            description: 'Cá cược trận đấu với các cửa 1X2, tài xỉu và tỷ số.',
+            minBet: '200đ',
+            maxWin: 'x12'
+        },
         roulette: {
             name: 'Roulette',
             icon: '🎡',
@@ -275,6 +282,7 @@ function startGame(gameName) {
     const gamePages = {
         'taixiu': 'html/game/taixiu.html',
         'xocdia': 'html/game/xocdia.html',
+        'bongda': 'html/game/bongda.html',
         'roulette': 'html/game/roulette.html',
         'slot': 'html/game/slot.html',
         'baucua': 'html/game/baucua.html',
