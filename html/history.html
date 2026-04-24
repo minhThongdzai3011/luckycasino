@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Giao Dịch - Lucky Casino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="window.location.href='../index.html'">
+                    <i class="fas fa-dice"></i>
+                    <span>Lucky Casino</span>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">Trang Chủ</a>
+                    <a href="../index.html#games" class="nav-link">Trò Chơi</a>
+                    <a href="deposit.html" class="nav-link">Nạp Tiền</a>
+                    <a href="history.html" class="nav-link active">Lịch Sử</a>
+                </nav>
+                <div class="user-info" id="userInfo">
+                    <!-- Logged Out State -->
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="btn-login" onclick="showAuthModal('login')">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng Nhập
+                        </button>
+                        <button class="btn-register" onclick="showAuthModal('register')">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng Ký
+                        </button>
+                    </div>
+                    <!-- Logged In State -->
+                    <div class="user-logged-in" id="userLoggedIn" style="display: none;">
+                        <div class="balance">
+                            <i class="fas fa-coins"></i>
+                            <span id="userBalance">10,000</span>
+                            <span class="currency">đ</span>
+                        </div>
+                        <div class="user-avatar" onclick="toggleUserMenu()">
+                            <i class="fas fa-user"></i>
+                            <span id="userName" class="user-name">Player</span>
+                        </div>
+                        <!-- User Dropdown Menu -->
+                        <div class="user-menu" id="userMenu">
+                            <div class="user-menu-header">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userMenuName">Player</span>
+                            </div>
+                            <ul>
+                                <li onclick="showProfile()"><i class="fas fa-id-card"></i> Hồ Sơ</li>
+                                <li onclick="window.location.href='deposit.html'"><i class="fas fa-wallet"></i> Nạp Tiền</li>
+                                <li onclick="window.location.href='history.html'"><i class="fas fa-history"></i> Lịch Sử</li>
+                                <li onclick="showSettings()"><i class="fas fa-cog"></i> Cài Đặt</li>
+                                <li class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- History Page Content -->
+    <section class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-history"></i> Lịch Sử Giao Dịch</h1>
+                <p>Xem lại các giao dịch và hoạt động của bạn</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon deposit">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalDeposit">0đ</h3>
+                        <p>Tổng Nạp</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon game">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalGames">0</h3>
+                        <p>Số Ván Chơi</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bonus">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalBonus">0đ</h3>
+                        <p>Tổng Thưởng</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalProfit">0đ</h3>
+                        <p>Lãi/Lỗ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="history-filter-section">
+                <div class="filter-tabs-large">
+                    <button class="filter-tab active" data-filter="all" onclick="filterHistoryPage('all')">
+                        <i class="fas fa-list"></i>
+                        <span>Tất Cả</span>
+                    </button>
+                    <button class="filter-tab" data-filter="deposit" onclick="filterHistoryPage('deposit')">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Nạp Tiền</span>
+                    </button>
+                    <button class="filter-tab" data-filter="game" onclick="filterHistoryPage('game')">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Chơi Game</span>
+                    </button>
+                    <button class="filter-tab" data-filter="bonus" onclick="filterHistoryPage('bonus')">
+                        <i class="fas fa-gift"></i>
+                        <span>Thưởng</span>
+                    </button>
+                </div>
+
+                <div class="filter-actions">
+                    <input type="date" id="filterDate" class="date-filter">
+                    <button class="btn-export" onclick="exportHistory()">
+                        <i class="fas fa-download"></i> Xuất Excel
+                    </button>
+                </div>
+            </div>
+
+            <!-- History List -->
+            <div class="history-list-page" id="historyListPage">
+                <div class="empty-state-large">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>Chưa có giao dịch nào</h3>
+                    <p>Các giao dịch của bạn sẽ hiển thị ở đây</p>
+                    <button class="btn-primary" onclick="window.location.href='deposit.html'">
+                        <i class="fas fa-wallet"></i> Nạp Tiền Ngay
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-large" id="historyPagination" style="display: none;">
+                <button class="page-btn" onclick="previousPageHistory()" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Trước</span>
+                </button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="page-btn" onclick="nextPageHistory()" id="nextBtn">
+                    <span>Sau</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Lucky Casino</h4>
+                    <p>Sòng bài trực tuyến uy tín hàng đầu Việt Nam</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Kết</h4>
+                    <ul>
+                        <li><a href="../index.html">Trang Chủ</a></li>
+                        <li><a href="deposit.html">Nạp Tiền</a></li>
+                        <li><a href="history.html">Lịch Sử</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lucky Casino. Chỉ dành cho người chơi trên 18 tuổi.</p>
+                <p class="warning">⚠️ Đây là sòng bài giả - chỉ để giải trí</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Transaction Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-overlay" onclick="closeDetailModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDetailModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="transaction-detail" id="transactionDetail">
+                <!-- Transaction details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="auth-modal-content">
+            <button class="auth-modal-close" onclick="closeAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Login & Register Forms (same as deposit.html) -->
+            <div class="auth-form" id="loginForm">
+                <div class="auth-header">
+                    <i class="fas fa-dice auth-icon"></i>
+                    <h2>Đăng Nhập</h2>
+                    <p>Chào mừng trở lại Lucky Casino!</p>
+                </div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Tên đăng nhập hoặc Email</label>
+                        <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Ghi nhớ đăng nhập</span>
+                        </label>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                    </button>
+                </form>
+                <div class="auth-switch">
+                    <p>Chưa có tài khoản? <a href="#" onclick="switchAuthMode('register'); return false;">Đăng ký ngay</a></p>
+                </div>
+            </div>
+
+            <div class="auth-form" id="registerForm" style="display: none;">
+                <div class="auth-header">
+                    <i class="fas fa-user-plus auth-icon"></i>
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p>Tham gia Lucky Casino ngay hôm nay!</p>
+                </div>
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Tên đăng nhập</label>
+                        <input type="text" id="registerUsername" placeholder="Chọn tên đăng nhập" required minlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Số điện thoại</label>
+                        <input type="tel" id="registerPhone" placeholder="0123456789" required pattern="[0-9]{10}">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="registerPassword" placeholder="Tạo mật khẩu mạnh" required minlength="6">
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Xác nhận mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="registerPasswordConfirm" placeholder="Nhập lại mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPasswordConfirm')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>Tôi đồng ý với Điều khoản sử dụng</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ageConfirm" required>
+                            <span>Tôi xác nhận đã đủ 18 tuổi</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus"></i> Đăng Ký
+                    </button>
+                </form>
+                <div class="auth-switch">
+                    <p>Đã có tài khoản? <a href="#" onclick="switchAuthMode('login'); return false;">Đăng nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Page-specific vars
+        let currentFilterType = 'all';
+        let currentPageNum = 1;
+        let itemsPerPageNum = 10;
+
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if logged in
+            if (!isLoggedIn) {
+                showNotification('Vui lòng đăng nhập để xem lịch sử! 🔐', 'error');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 2000);
+            } else {
+                loadHistoryPage('all');
+                updateStatsOverview();
+            }
+        });
+
+        // Filter History (Page version)
+        function filterHistoryPage(type) {
+            currentFilterType = type;
+            currentPageNum = 1;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.closest('.filter-tab').classList.add('active');
+            
+            loadHistoryPage(type);
+        }
+
+        // Load History (Page version)
+        function loadHistoryPage(filter = 'all') {
+            const allHistory = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
+            
+            // Filter by current user
+            let userHistory = allHistory.filter(t => t.username === currentUser.username);
+            
+            // Apply type filter
+            if (filter !== 'all') {
+                userHistory = userHistory.filter(t => t.type === filter);
+            }
+            
+            // Apply date filter
+            const filterDate = document.getElementById('filterDate').value;
+            if (filterDate) {
+                userHistory = userHistory.filter(t => {
+                    const tDate = new Date(t.date).toISOString().split('T')[0];
+                    return tDate === filterDate;
+                });
+            }
+            
+            // Sort by date (newest first)
+            userHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Pagination
+            const totalItems = userHistory.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPageNum);
+            const startIndex = (currentPageNum - 1) * itemsPerPageNum;
+            const endIndex = startIndex + itemsPerPageNum;
+            const paginatedHistory = userHistory.slice(startIndex, endIndex);
+            
+            // Update UI
+            const historyList = document.getElementById('historyListPage');
+            
+            if (userHistory.length === 0) {
+                historyList.innerHTML = `
+                    <div class="empty-state-large">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>Không tìm thấy giao dịch</h3>
+                        <p>Thử thay đổi bộ lọc hoặc thực hiện giao dịch mới</p>
+                        <button class="btn-primary" onclick="window.location.href='deposit.html'">
+                            <i class="fas fa-wallet"></i> Nạp Tiền Ngay
+                        </button>
+                    </div>
+                `;
+                document.getElementById('historyPagination').style.display = 'none';
+            } else {
+                historyList.innerHTML = paginatedHistory.map(transaction => {
+                    const date = new Date(transaction.date);
+                    const formattedDate = date.toLocaleDateString('vi-VN', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    const formattedTime = date.toLocaleTimeString('vi-VN', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    let icon = '';
+                    let title = '';
+                    let amountClass = '';
+                    let sign = '';
+                    
+                    switch(transaction.type) {
+                        case 'deposit':
+                            icon = 'fas fa-arrow-down';
+                            title = `Nạp tiền - ${transaction.method}`;
+                            amountClass = 'positive';
+                            sign = '+';
+                            break;
+                        case 'game':
+                            icon = 'fas fa-gamepad';
+                            title = `Chơi game - ${transaction.game || 'Game'}`;
+                            amountClass = transaction.amount > 0 ? 'positive' : 'negative';
+                            sign = transaction.amount > 0 ? '+' : '';
+                            break;
+                        case 'bonus':
+                            icon = 'fas fa-gift';
+                            title = transaction.method || 'Thưởng';
+                            amountClass = 'positive';
+                            sign = '+';
+                            break;
+                        case 'withdraw':
+                            icon = 'fas fa-arrow-up';
+                            title = 'Rút tiền';
+                            amountClass = 'negative';
+                            sign = '-';
+                            break;
+                    }
+                    
+                    return `
+                        <div class="history-item-large" onclick="showTransactionDetail('${transaction.id}')">
+                            <div class="history-item-icon ${transaction.type}">
+                                <i class="${icon}"></i>
+                            </div>
+                            <div class="history-item-content">
+                                <h4>${title}</h4>
+                                <div class="history-item-meta">
+                                    <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
+                                    <span><i class="fas fa-clock"></i> ${formattedTime}</span>
+                                    <span class="status-badge ${transaction.status}">
+                                        ${transaction.status === 'success' ? 'Thành công' : 
+                                          transaction.status === 'pending' ? 'Đang xử lý' : 'Thất bại'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="history-item-amount ${amountClass}">
+                                ${sign}${Math.abs(transaction.amount).toLocaleString('vi-VN')}đ
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Show pagination
+                document.getElementById('historyPagination').style.display = 'flex';
+                updatePagination(totalPages);
+            }
+        }
+
+        // Update Pagination
+        function updatePagination(totalPages) {
+            const pageNumbers = document.getElementById('pageNumbers');
+            let html = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-number ${i === currentPageNum ? 'active' : ''}" 
+                         onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            pageNumbers.innerHTML = html;
+            
+            // Update prev/next buttons
+            document.getElementById('prevBtn').disabled = currentPageNum === 1;
+            document.getElementById('nextBtn').disabled = currentPageNum === totalPages;
+        }
+
+        // Pagination functions
+        function goToPage(page) {
+            currentPageNum = page;
+            loadHistoryPage(currentFilterType);
+        }
+
+        function previousPageHistory() {
+            if (currentPageNum > 1) {
+                currentPageNum--;
+                loadHistoryPage(currentFilterType);
+            }
+        }
+
+        function nextPageHistory() {
+            currentPageNum++;
+            loadHistoryPage(currentFilterType);
+        }
+
+        // Update Stats Overview
+        function updateStatsOverview() {
+            const allHistory = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
+            const userHistory = allHistory.filter(t => t.username === currentUser.username);
+            
+            let totalDeposit = 0;
+            let totalGames = 0;
+            let totalBonus = 0;
+            let totalProfit = 0;
+            
+            userHistory.forEach(t => {
+                if (t.type === 'deposit' && t.status === 'success') {
+                    totalDeposit += t.amount;
+                }
+                if (t.type === 'game') {
+                    totalGames++;
+                    totalProfit += t.amount;
+                }
+                if (t.type === 'bonus' && t.status === 'success') {
+                    totalBonus += t.amount;
+                }
+            });
+            
+            document.getElementById('totalDeposit').textContent = totalDeposit.toLocaleString('vi-VN') + 'đ';
+            document.getElementById('totalGames').textContent = totalGames;
+            document.getElementById('totalBonus').textContent = totalBonus.toLocaleString('vi-VN') + 'đ';
+            
+            const profitElement = document.getElementById('totalProfit');
+            profitElement.textContent = totalProfit.toLocaleString('vi-VN') + 'đ';
+            profitElement.style.color = totalProfit >= 0 ? '#4caf50' : '#e94560';
+        }
+
+        // Show Transaction Detail
+        function showTransactionDetail(transactionId) {
+            const allHistory = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
+            const transaction = allHistory.find(t => t.id === transactionId);
+            
+            if (!transaction) return;
+            
+            const date = new Date(transaction.date);
+            const formattedDate = date.toLocaleString('vi-VN');
+            
+            const detailHTML = `
+                <div class="transaction-detail-content">
+                    <h3><i class="fas fa-receipt"></i> Chi Tiết Giao Dịch</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Mã giao dịch:</span>
+                        <span class="detail-value">${transaction.id}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Loại:</span>
+                        <span class="detail-value">${transaction.type}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phương thức:</span>
+                        <span class="detail-value">${transaction.method || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Số tiền:</span>
+                        <span class="detail-value ${transaction.amount >= 0 ? 'positive' : 'negative'}">
+                            ${transaction.amount.toLocaleString('vi-VN')}đ
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Trạng thái:</span>
+                        <span class="status-badge ${transaction.status}">
+                            ${transaction.status === 'success' ? 'Thành công' : 
+                              transaction.status === 'pending' ? 'Đang xử lý' : 'Thất bại'}
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Thời gian:</span>
+                        <span class="detail-value">${formattedDate}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('transactionDetail').innerHTML = detailHTML;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // Export History
+        function exportHistory() {
+            showNotification('Tính năng xuất Excel đang phát triển! 📊', 'info');
+        }
+
+        // Date filter change
+        document.getElementById('filterDate')?.addEventListener('change', () => {
+            loadHistoryPage(currentFilterType);
+        });
+    </script>
+</body>
+</html>

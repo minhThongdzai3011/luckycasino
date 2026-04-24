@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp Tiền - Lucky Casino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="window.location.href='../index.html'">
+                    <i class="fas fa-dice"></i>
+                    <span>Lucky Casino</span>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html" class="nav-link">Trang Chủ</a>
+                    <a href="../index.html#games" class="nav-link">Trò Chơi</a>
+                    <a href="deposit.html" class="nav-link active">Nạp Tiền</a>
+                    <a href="history.html" class="nav-link">Lịch Sử</a>
+                </nav>
+                <div class="user-info" id="userInfo">
+                    <!-- Logged Out State -->
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="btn-login" onclick="showAuthModal('login')">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng Nhập
+                        </button>
+                        <button class="btn-register" onclick="showAuthModal('register')">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng Ký
+                        </button>
+                    </div>
+                    <!-- Logged In State -->
+                    <div class="user-logged-in" id="userLoggedIn" style="display: none;">
+                        <div class="balance">
+                            <i class="fas fa-coins"></i>
+                            <span id="userBalance">10,000</span>
+                            <span class="currency">đ</span>
+                        </div>
+                        <div class="user-avatar" onclick="toggleUserMenu()">
+                            <i class="fas fa-user"></i>
+                            <span id="userName" class="user-name">Player</span>
+                        </div>
+                        <!-- User Dropdown Menu -->
+                        <div class="user-menu" id="userMenu">
+                            <div class="user-menu-header">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userMenuName">Player</span>
+                            </div>
+                            <ul>
+                                <li onclick="showProfile()"><i class="fas fa-id-card"></i> Hồ Sơ</li>
+                                <li onclick="window.location.href='deposit.html'"><i class="fas fa-wallet"></i> Nạp Tiền</li>
+                                <li onclick="window.location.href='history.html'"><i class="fas fa-history"></i> Lịch Sử</li>
+                                <li onclick="showSettings()"><i class="fas fa-cog"></i> Cài Đặt</li>
+                                <li class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Deposit Page Content -->
+    <section class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-wallet"></i> Nạp Tiền</h1>
+                <p>Chọn phương thức nạp tiền phù hợp với bạn</p>
+            </div>
+
+            <!-- Deposit Methods -->
+            <div class="deposit-methods-page">
+                <div class="method-card-large" onclick="selectDepositMethod('bank')">
+                    <div class="method-icon-large">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Chuyển Khoản Ngân Hàng</h3>
+                        <p>Chuyển khoản qua ngân hàng nội địa - An toàn, bảo mật</p>
+                        <ul class="method-features">
+                            <li><i class="fas fa-check"></i> Không mất phí</li>
+                            <li><i class="fas fa-check"></i> Hỗ trợ tất cả ngân hàng</li>
+                            <li><i class="fas fa-check"></i> Xử lý nhanh chóng</li>
+                        </ul>
+                    </div>
+                    <span class="method-badge">Phổ biến</span>
+                </div>
+
+                <div class="method-card-large" onclick="selectDepositMethod('momo')">
+                    <div class="method-icon-large momo">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Ví MoMo</h3>
+                        <p>Nạp tiền qua ví điện tử MoMo - Nhanh chóng, tiện lợi</p>
+                        <ul class="method-features">
+                            <li><i class="fas fa-check"></i> Xử lý tức thì</li>
+                            <li><i class="fas fa-check"></i> Không cần tài khoản ngân hàng</li>
+                            <li><i class="fas fa-check"></i> Bảo mật cao</li>
+                        </ul>
+                    </div>
+                    <span class="method-badge instant">Tức thì</span>
+                </div>
+
+                <div class="method-card-large" onclick="selectDepositMethod('zalopay')">
+                    <div class="method-icon-large zalopay">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>ZaloPay</h3>
+                        <p>Thanh toán qua ví ZaloPay - Đơn giản, an toàn</p>
+                        <ul class="method-features">
+                            <li><i class="fas fa-check"></i> Giao dịch nhanh</li>
+                            <li><i class="fas fa-check"></i> Tích hợp Zalo</li>
+                            <li><i class="fas fa-check"></i> Ưu đãi độc quyền</li>
+                        </ul>
+                    </div>
+                    <span class="method-badge instant">Tức thì</span>
+                </div>
+
+                <div class="method-card-large" onclick="selectDepositMethod('card')">
+                    <div class="method-icon-large card">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Thẻ Cào Điện Thoại</h3>
+                        <p>Nạp bằng thẻ cào Viettel, Mobifone, Vinaphone</p>
+                        <ul class="method-features">
+                            <li><i class="fas fa-check"></i> Không cần tài khoản</li>
+                            <li><i class="fas fa-check"></i> Mua ở khắp nơi</li>
+                            <li><i class="fas fa-exclamation-triangle"></i> Phí 20%</li>
+                        </ul>
+                    </div>
+                    <span class="method-badge">Tiện lợi</span>
+                </div>
+            </div>
+
+            <!-- Deposit Form Container -->
+            <div class="deposit-form-container" id="depositFormContainer" style="display: none;">
+                <div class="back-btn-large" onclick="backToMethods()">
+                    <i class="fas fa-arrow-left"></i> Quay lại chọn phương thức
+                </div>
+
+                <!-- Bank Transfer -->
+                <div class="payment-form-page" id="bankMethod" style="display: none;">
+                    <div class="form-card">
+                        <h2><i class="fas fa-university"></i> Chuyển Khoản Ngân Hàng</h2>
+                        <div class="bank-info-large">
+                            <div class="info-row">
+                                <div class="info-label">Ngân hàng:</div>
+                                <div class="info-value copyable" onclick="copyText(this)">
+                                    <span>Vietcombank</span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Số tài khoản:</div>
+                                <div class="info-value copyable" onclick="copyText(this)">
+                                    <span>0123456789</span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Chủ tài khoản:</div>
+                                <div class="info-value">
+                                    <span>LUCKY CASINO</span>
+                                </div>
+                            </div>
+                            <div class="info-row highlight-row">
+                                <div class="info-label">Nội dung chuyển khoản:</div>
+                                <div class="info-value copyable highlight" onclick="copyText(this)">
+                                    <span>LC<span id="userCode">12345</span></span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qr-section">
+                            <div class="qr-placeholder-large">
+                                <i class="fas fa-qrcode"></i>
+                                <p>Quét mã QR để chuyển khoản nhanh</p>
+                            </div>
+                        </div>
+
+                        <div class="amount-section">
+                            <label class="amount-label">
+                                <i class="fas fa-coins"></i>
+                                <span>Số tiền nạp</span>
+                            </label>
+                            <div class="amount-input-wrapper">
+                                <input type="text" id="bankAmount" placeholder="Nhập số tiền muốn nạp" oninput="formatAmountInput(this)">
+                                <span class="currency-badge">VNĐ</span>
+                            </div>
+                            <p class="amount-hint"><i class="fas fa-info-circle"></i> Số tiền tối thiểu: 10,000đ</p>
+                            <div class="quick-amounts-section">
+                                <p class="quick-title">Chọn nhanh:</p>
+                                <div class="quick-amounts-large">
+                                    <button onclick="setAmount(10000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">10K</span>
+                                        <span class="amount-full">10,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(50000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">50K</span>
+                                        <span class="amount-full">50,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(100000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">100K</span>
+                                        <span class="amount-full">100,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(200000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">200K</span>
+                                        <span class="amount-full">200,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(500000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">500K</span>
+                                        <span class="amount-full">500,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(1000000, 'bank')" class="amount-btn">
+                                        <span class="amount-value">1M</span>
+                                        <span class="amount-full">1,000,000đ</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-submit-large" onclick="confirmDeposit('bank')">
+                            <i class="fas fa-check-circle"></i> Tôi Đã Chuyển Khoản
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MoMo -->
+                <div class="payment-form-page" id="momoMethod" style="display: none;">
+                    <div class="form-card">
+                        <h2><i class="fas fa-mobile-alt"></i> Nạp Qua Ví MoMo</h2>
+                        <div class="bank-info-large">
+                            <div class="info-row">
+                                <div class="info-label">Số điện thoại:</div>
+                                <div class="info-value copyable" onclick="copyText(this)">
+                                    <span>0912345678</span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Tên tài khoản:</div>
+                                <div class="info-value">
+                                    <span>LUCKY CASINO</span>
+                                </div>
+                            </div>
+                            <div class="info-row highlight-row">
+                                <div class="info-label">Nội dung chuyển tiền:</div>
+                                <div class="info-value copyable highlight" onclick="copyText(this)">
+                                    <span>LC<span id="userCodeMomo">12345</span></span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="amount-section">
+                            <label class="amount-label">
+                                <i class="fas fa-coins"></i>
+                                <span>Số tiền nạp</span>
+                            </label>
+                            <div class="amount-input-wrapper">
+                                <input type="text" id="momoAmount" placeholder="Nhập số tiền muốn nạp" oninput="formatAmountInput(this)">
+                                <span class="currency-badge">VNĐ</span>
+                            </div>
+                            <p class="amount-hint"><i class="fas fa-info-circle"></i> Số tiền tối thiểu: 10,000đ</p>
+                            <div class="quick-amounts-section">
+                                <p class="quick-title">Chọn nhanh:</p>
+                                <div class="quick-amounts-large">
+                                    <button onclick="setAmount(10000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">10K</span>
+                                        <span class="amount-full">10,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(50000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">50K</span>
+                                        <span class="amount-full">50,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(100000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">100K</span>
+                                        <span class="amount-full">100,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(200000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">200K</span>
+                                        <span class="amount-full">200,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(500000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">500K</span>
+                                        <span class="amount-full">500,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(1000000, 'momo')" class="amount-btn">
+                                        <span class="amount-value">1M</span>
+                                        <span class="amount-full">1,000,000đ</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-submit-large" onclick="confirmDeposit('momo')">
+                            <i class="fas fa-check-circle"></i> Xác Nhận Đã Chuyển
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ZaloPay -->
+                <div class="payment-form-page" id="zalopayMethod" style="display: none;">
+                    <div class="form-card">
+                        <h2><i class="fas fa-wallet"></i> Nạp Qua ZaloPay</h2>
+                        <div class="bank-info-large">
+                            <div class="info-row">
+                                <div class="info-label">Số điện thoại:</div>
+                                <div class="info-value copyable" onclick="copyText(this)">
+                                    <span>0987654321</span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Tên tài khoản:</div>
+                                <div class="info-value">
+                                    <span>LUCKY CASINO</span>
+                                </div>
+                            </div>
+                            <div class="info-row highlight-row">
+                                <div class="info-label">Nội dung chuyển tiền:</div>
+                                <div class="info-value copyable highlight" onclick="copyText(this)">
+                                    <span>LC<span id="userCodeZalo">12345</span></span>
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="amount-section">
+                            <label class="amount-label">
+                                <i class="fas fa-coins"></i>
+                                <span>Số tiền nạp</span>
+                            </label>
+                            <div class="amount-input-wrapper">
+                                <input type="text" id="zaloAmount" placeholder="Nhập số tiền muốn nạp" oninput="formatAmountInput(this)">
+                                <span class="currency-badge">VNĐ</span>
+                            </div>
+                            <p class="amount-hint"><i class="fas fa-info-circle"></i> Số tiền tối thiểu: 10,000đ</p>
+                            <div class="quick-amounts-section">
+                                <p class="quick-title">Chọn nhanh:</p>
+                                <div class="quick-amounts-large">
+                                    <button onclick="setAmount(10000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">10K</span>
+                                        <span class="amount-full">10,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(50000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">50K</span>
+                                        <span class="amount-full">50,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(100000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">100K</span>
+                                        <span class="amount-full">100,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(200000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">200K</span>
+                                        <span class="amount-full">200,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(500000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">500K</span>
+                                        <span class="amount-full">500,000đ</span>
+                                    </button>
+                                    <button onclick="setAmount(1000000, 'zalo')" class="amount-btn">
+                                        <span class="amount-value">1M</span>
+                                        <span class="amount-full">1,000,000đ</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-submit-large" onclick="confirmDeposit('zalopay')">
+                            <i class="fas fa-check-circle"></i> Xác Nhận Đã Chuyển
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card -->
+                <div class="payment-form-page" id="cardMethod" style="display: none;">
+                    <div class="form-card">
+                        <h2><i class="fas fa-credit-card"></i> Nạp Bằng Thẻ Cào</h2>
+                        
+                        <div class="card-form">
+                            <div class="form-group-large">
+                                <label>Loại thẻ:</label>
+                                <select id="cardType" class="select-large">
+                                    <option value="viettel">Viettel</option>
+                                    <option value="mobifone">Mobifone</option>
+                                    <option value="vinaphone">Vinaphone</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-large">
+                                <label>Mệnh giá:</label>
+                                <select id="cardValue" class="select-large">
+                                    <option value="10000">10,000đ</option>
+                                    <option value="20000">20,000đ</option>
+                                    <option value="50000">50,000đ</option>
+                                    <option value="100000">100,000đ</option>
+                                    <option value="200000">200,000đ</option>
+                                    <option value="500000">500,000đ</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-large">
+                                <label>Mã thẻ:</label>
+                                <input type="text" id="cardCode" placeholder="Nhập mã thẻ (14-15 số)" maxlength="15">
+                            </div>
+
+                            <div class="form-group-large">
+                                <label>Số serial:</label>
+                                <input type="text" id="cardSerial" placeholder="Nhập số serial (10-12 số)" maxlength="12">
+                            </div>
+
+                            <div class="note-large">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>Lưu ý:</strong> Phí xử lý thẻ cào là 20%. Bạn sẽ nhận được 80% giá trị thẻ.
+                                    <br>Ví dụ: Thẻ 100,000đ → Nhận 80,000đ
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-submit-large" onclick="confirmDeposit('card')">
+                            <i class="fas fa-check-circle"></i> Nạp Thẻ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Lucky Casino</h4>
+                    <p>Sòng bài trực tuyến uy tín hàng đầu Việt Nam</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Kết</h4>
+                    <ul>
+                        <li><a href="../index.html">Trang Chủ</a></li>
+                        <li><a href="deposit.html">Nạp Tiền</a></li>
+                        <li><a href="history.html">Lịch Sử</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lucky Casino. Chỉ dành cho người chơi trên 18 tuổi.</p>
+                <p class="warning">⚠️ Đây là sòng bài giả - chỉ để giải trí</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="auth-modal-content">
+            <button class="auth-modal-close" onclick="closeAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Login & Register Forms (same as index.html) -->
+            <div class="auth-form" id="loginForm">
+                <div class="auth-header">
+                    <i class="fas fa-dice auth-icon"></i>
+                    <h2>Đăng Nhập</h2>
+                    <p>Chào mừng trở lại Lucky Casino!</p>
+                </div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Tên đăng nhập hoặc Email</label>
+                        <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Ghi nhớ đăng nhập</span>
+                        </label>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                    </button>
+                </form>
+                <div class="auth-switch">
+                    <p>Chưa có tài khoản? <a href="#" onclick="switchAuthMode('register'); return false;">Đăng ký ngay</a></p>
+                </div>
+            </div>
+
+            <div class="auth-form" id="registerForm" style="display: none;">
+                <div class="auth-header">
+                    <i class="fas fa-user-plus auth-icon"></i>
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p>Tham gia Lucky Casino ngay hôm nay!</p>
+                </div>
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Tên đăng nhập</label>
+                        <input type="text" id="registerUsername" placeholder="Chọn tên đăng nhập" required minlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Số điện thoại</label>
+                        <input type="tel" id="registerPhone" placeholder="0123456789" required pattern="[0-9]{10}">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="registerPassword" placeholder="Tạo mật khẩu mạnh" required minlength="6">
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Xác nhận mật khẩu</label>
+                        <div class="password-input">
+                            <input type="password" id="registerPasswordConfirm" placeholder="Nhập lại mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPasswordConfirm')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>Tôi đồng ý với Điều khoản sử dụng</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ageConfirm" required>
+                            <span>Tôi xác nhận đã đủ 18 tuổi</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus"></i> Đăng Ký
+                    </button>
+                </form>
+                <div class="auth-switch">
+                    <p>Đã có tài khoản? <a href="#" onclick="switchAuthMode('login'); return false;">Đăng nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if logged in
+            if (!isLoggedIn) {
+                showNotification('Vui lòng đăng nhập để nạp tiền! 🔐', 'error');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 2000);
+            }
+            
+            // Update user code
+            if (currentUser) {
+                const userCode = currentUser.username.substring(0, 5).toUpperCase();
+                const userCodeElements = document.querySelectorAll('#userCode, #userCodeMomo, #userCodeZalo');
+                userCodeElements.forEach(el => {
+                    if (el) el.textContent = userCode;
+                });
+            }
+        });
+
+        // Select Deposit Method (Page version)
+        function selectDepositMethod(method) {
+            document.querySelector('.deposit-methods-page').style.display = 'none';
+            document.getElementById('depositFormContainer').style.display = 'block';
+            
+            // Hide all payment forms
+            document.querySelectorAll('.payment-form-page').forEach(m => m.style.display = 'none');
+            
+            // Show selected method
+            document.getElementById(method + 'Method').style.display = 'block';
+            
+            // Scroll to form
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        // Back to Methods (Page version)
+        function backToMethods() {
+            document.querySelector('.deposit-methods-page').style.display = 'grid';
+            document.getElementById('depositFormContainer').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Format Amount Input (Auto-format with commas)
+        function formatAmountInput(input) {
+            // Remove all non-digit characters
+            let value = input.value.replace(/[^\d]/g, '');
+            
+            // Convert to number and format with commas
+            if (value) {
+                const number = parseInt(value);
+                input.value = number.toLocaleString('vi-VN');
+            } else {
+                input.value = '';
+            }
+            
+            // Remove selected class from all buttons when typing
+            const parentForm = input.closest('.payment-form-page');
+            if (parentForm) {
+                parentForm.querySelectorAll('.amount-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+            }
+        }
+
+        // Set Amount (from quick buttons)
+        function setAmount(amount, method) {
+            // Get the correct input based on method
+            let inputId = method + 'Amount';
+            const input = document.getElementById(inputId);
+            
+            if (input) {
+                // Format with commas
+                input.value = amount.toLocaleString('vi-VN');
+                
+                // Add focus effect
+                input.focus();
+                
+                // Highlight selected button
+                const parentForm = input.closest('.payment-form-page');
+                if (parentForm) {
+                    // Remove selected from all buttons
+                    parentForm.querySelectorAll('.amount-btn').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    
+                    // Add selected to clicked button
+                    event.target.closest('.amount-btn').classList.add('selected');
+                }
+                
+                // Show success feedback
+                showNotification(`Đã chọn ${amount.toLocaleString('vi-VN')}đ 💰`, 'success');
+            }
+        }
+
+        // Get Raw Amount (remove commas for processing)
+        function getRawAmount(formattedAmount) {
+            return parseInt(formattedAmount.replace(/[^\d]/g, '')) || 0;
+        }
+
+        // Confirm Deposit (Enhanced version)
+        function confirmDeposit(method) {
+            let amount = 0;
+            
+            // Handle different methods
+            if (method === 'card') {
+                // Card method uses select dropdown
+                const cardValue = document.getElementById('cardValue');
+                const cardCode = document.getElementById('cardCode');
+                const cardSerial = document.getElementById('cardSerial');
+                
+                if (!cardCode.value || cardCode.value.length < 10) {
+                    showNotification('Vui lòng nhập mã thẻ hợp lệ! ⚠️', 'error');
+                    cardCode.focus();
+                    return;
+                }
+                
+                if (!cardSerial.value || cardSerial.value.length < 10) {
+                    showNotification('Vui lòng nhập số serial hợp lệ! ⚠️', 'error');
+                    cardSerial.focus();
+                    return;
+                }
+                
+                amount = parseInt(cardValue.value);
+                // Apply 20% fee for card
+                amount = Math.floor(amount * 0.8);
+            } else {
+                // Other methods use text input
+                const inputId = method + 'Amount';
+                const input = document.getElementById(inputId);
+                const formattedAmount = input ? input.value : '';
+                amount = getRawAmount(formattedAmount);
+                
+                if (!amount || amount < 10000) {
+                    showNotification('Số tiền tối thiểu là 10,000đ! ⚠️', 'error');
+                    if (input) input.focus();
+                    return;
+                }
+                
+                if (amount > 100000000) {
+                    showNotification('Số tiền tối đa là 100,000,000đ! ⚠️', 'error');
+                    return;
+                }
+            }
+            
+            // Show loading notification
+            showNotification('Đang xác nhận giao dịch... ⏳', 'info');
+            
+            // Simulate processing
+            setTimeout(() => {
+                // Add transaction to history
+                const transaction = {
+                    id: 'DEP' + Date.now(),
+                    type: 'deposit',
+                    method: method === 'bank' ? 'Chuyển khoản ngân hàng' : 
+                            method === 'momo' ? 'Ví MoMo' : 
+                            method === 'zalo' || method === 'zalopay' ? 'ZaloPay' : 'Thẻ cào',
+                    amount: amount,
+                    date: new Date().toISOString(),
+                    status: 'pending',
+                    username: currentUser.username
+                };
+                
+                // Save to localStorage
+                const allHistory = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
+                allHistory.push(transaction);
+                localStorage.setItem('transactionHistory', JSON.stringify(allHistory));
+                
+                showNotification('Yêu cầu nạp tiền đã được gửi! Vui lòng chờ xác nhận 🎉', 'success');
+                
+                // Auto approve after 3 seconds (simulate admin approval)
+                setTimeout(() => {
+                    approveDeposit(transaction.id);
+                }, 3000);
+                
+                // Clear forms
+                if (method === 'card') {
+                    document.getElementById('cardCode').value = '';
+                    document.getElementById('cardSerial').value = '';
+                } else {
+                    const inputId = method + 'Amount';
+                    const input = document.getElementById(inputId);
+                    if (input) input.value = '';
+                }
+                
+                // Remove selected button highlight
+                document.querySelectorAll('.amount-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+            }, 1000);
+        }
+
+        // Approve Deposit (auto-approve simulation)
+        function approveDeposit(transactionId) {
+            const allHistory = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
+            const transaction = allHistory.find(t => t.id === transactionId);
+            
+            if (transaction && transaction.status === 'pending') {
+                transaction.status = 'success';
+                localStorage.setItem('transactionHistory', JSON.stringify(allHistory));
+                
+                // Update user balance
+                currentUser.balance += transaction.amount;
+                
+                // Update in users array
+                const users = JSON.parse(localStorage.getItem('casinoUsers') || '[]');
+                const userIndex = users.findIndex(u => u.username === currentUser.username);
+                if (userIndex !== -1) {
+                    users[userIndex].balance = currentUser.balance;
+                    localStorage.setItem('casinoUsers', JSON.stringify(users));
+                }
+                
+                // Update current user session
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Update UI
+                updateBalance();
+                
+                showNotification(`Nạp tiền thành công! +${transaction.amount.toLocaleString('vi-VN')}đ 🎊`, 'success');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Casino - Sòng Bài Online</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dice"></i>
+                    <span>Lucky Casino</span>
+                </div>
+                <nav class="nav">
+                    <a href="#" class="nav-link active">Trang Chủ</a>
+                    <a href="#games" class="nav-link">Trò Chơi</a>
+                    <a href="#" class="nav-link">Nạp Tiền</a>
+                    <a href="#" class="nav-link">Lịch Sử</a>
+                </nav>
+                <div class="user-info" id="userInfo">
+                    <!-- Logged Out State -->
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="btn-login" onclick="showAuthModal('login')">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng Nhập
+                        </button>
+                        <button class="btn-register" onclick="showAuthModal('register')">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng Ký
+                        </button>
+                    </div>
+                    <!-- Logged In State -->
+                    <div class="user-logged-in" id="userLoggedIn" style="display: none;">
+                        <div class="balance">
+                            <i class="fas fa-coins"></i>
+                            <span id="userBalance">10,000</span>
+                            <span class="currency">đ</span>
+                        </div>
+                        <div class="user-avatar" onclick="toggleUserMenu()">
+                            <i class="fas fa-user"></i>
+                            <span id="userName" class="user-name">Player</span>
+                        </div>
+                        <!-- User Dropdown Menu -->
+                        <div class="user-menu" id="userMenu">
+                            <div class="user-menu-header">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userMenuName">Player</span>
+                            </div>
+                            <ul>
+                                <li onclick="showProfile()"><i class="fas fa-id-card"></i> Hồ Sơ</li>
+                                <li onclick="showDepositModal()"><i class="fas fa-wallet"></i> Nạp Tiền</li>
+                                <li onclick="showHistory()"><i class="fas fa-history"></i> Lịch Sử</li>
+                                <li onclick="showSettings()"><i class="fas fa-cog"></i> Cài Đặt</li>
+                                <li class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Chào Mừng Đến Với Lucky Casino</h1>
+                <p class="hero-subtitle">Trải nghiệm sòng bài trực tuyến hấp dẫn với nhiều trò chơi phong phú</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Trò Chơi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Người Chơi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Hoạt Động</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games-section" id="games">
+        <div class="container">
+            <h2 class="section-title">Trò Chơi Phổ Biến</h2>
+            <div class="games-grid">
+                <!-- Tài Xỉu -->
+                <div class="game-card" data-game="taixiu">
+                    <div class="game-icon">
+                        <i class="fas fa-dice-three"></i>
+                    </div>
+                    <h3 class="game-title">Tài Xỉu</h3>
+                    <p class="game-description">Đoán kết quả tổng 3 xúc xắc</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 234</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 100đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Xóc Đĩa -->
+                <div class="game-card" data-game="xocdia">
+                    <div class="game-icon">
+                        <i class="fas fa-circle-notch"></i>
+                    </div>
+                    <h3 class="game-title">Xóc Đĩa</h3>
+                    <p class="game-description">Trò chơi dân gian Việt Nam</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 189</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 100đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Roulette -->
+                <div class="game-card" data-game="roulette">
+                    <div class="game-icon">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <h3 class="game-title">Roulette</h3>
+                    <p class="game-description">Vòng quay may mắn</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 156</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 200đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Slot Machine -->
+                <div class="game-card" data-game="slot">
+                    <div class="game-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="game-title">Slot Machine</h3>
+                    <p class="game-description">Máy đánh bạc 777</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 445</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 50đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Bầu Cua -->
+                <div class="game-card" data-game="baucua">
+                    <div class="game-icon">
+                        <i class="fas fa-fish"></i>
+                    </div>
+                    <h3 class="game-title">Bầu Cua</h3>
+                    <p class="game-description">Bầu Cua Cá Cọp</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 278</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 100đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Blackjack -->
+                <div class="game-card" data-game="blackjack">
+                    <div class="game-icon">
+                        <i class="fas fa-spade"></i>
+                    </div>
+                    <h3 class="game-title">Blackjack</h3>
+                    <p class="game-description">Xì Dách - 21 điểm</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 167</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 500đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Poker -->
+                <div class="game-card" data-game="poker">
+                    <div class="game-icon">
+                        <i class="fas fa-diamond"></i>
+                    </div>
+                    <h3 class="game-title">Poker</h3>
+                    <p class="game-description">Texas Hold'em</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 123</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 1000đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Baccarat -->
+                <div class="game-card" data-game="baccarat">
+                    <div class="game-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="game-title">Baccarat</h3>
+                    <p class="game-description">Bài Cào cao cấp</p>
+                    <div class="game-stats">
+                        <span class="players"><i class="fas fa-users"></i> 89</span>
+                        <span class="min-bet"><i class="fas fa-coins"></i> 500đ</span>
+                    </div>
+                    <button class="play-btn">
+                        <span>Chơi Ngay</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotions Section -->
+    <section class="promotions-section">
+        <div class="container">
+            <h2 class="section-title">Khuyến Mãi Hot</h2>
+            <div class="promotions-grid">
+                <div class="promo-card">
+                    <div class="promo-badge">Mới</div>
+                    <i class="fas fa-gift promo-icon"></i>
+                    <h3>Thưởng Đăng Ký</h3>
+                    <p>Nhận ngay 5,000đ khi đăng ký</p>
+                </div>
+                <div class="promo-card">
+                    <div class="promo-badge">Hot</div>
+                    <i class="fas fa-percentage promo-icon"></i>
+                    <h3>Hoàn Trả 10%</h3>
+                    <p>Hoàn trả mỗi ngày không giới hạn</p>
+                </div>
+                <div class="promo-card">
+                    <div class="promo-badge">VIP</div>
+                    <i class="fas fa-crown promo-icon"></i>
+                    <h3>Thưởng Nạp</h3>
+                    <p>Thưởng 20% cho lần nạp đầu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Lucky Casino</h4>
+                    <p>Sòng bài trực tuyến uy tín hàng đầu Việt Nam</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Trò Chơi</h4>
+                    <ul>
+                        <li><a href="#">Tài Xỉu</a></li>
+                        <li><a href="#">Xóc Đĩa</a></li>
+                        <li><a href="#">Roulette</a></li>
+                        <li><a href="#">Slot Machine</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hỗ Trợ</h4>
+                    <ul>
+                        <li><a href="#">Liên Hệ</a></li>
+                        <li><a href="#">Hướng Dẫn</a></li>
+                        <li><a href="#">Điều Khoản</a></li>
+                        <li><a href="#">Bảo Mật</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Hệ</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@luckycasino.vn</li>
+                        <li><i class="fas fa-phone"></i> 1900-xxxx</li>
+                        <li><i class="fas fa-clock"></i> 24/7</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lucky Casino. Chỉ dành cho người chơi trên 18 tuổi.</p>
+                <p class="warning">⚠️ Đây là sòng bài giả - chỉ để giải trí</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="auth-modal-content">
+            <button class="auth-modal-close" onclick="closeAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <div class="auth-header">
+                    <i class="fas fa-dice auth-icon"></i>
+                    <h2>Đăng Nhập</h2>
+                    <p>Chào mừng trở lại Lucky Casino!</p>
+                </div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-user"></i>
+                            Tên đăng nhập hoặc Email
+                        </label>
+                        <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-lock"></i>
+                            Mật khẩu
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Ghi nhớ đăng nhập</span>
+                        </label>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Đăng Nhập
+                    </button>
+                </form>
+                <div class="auth-divider">
+                    <span>hoặc</span>
+                </div>
+                <div class="social-login">
+                    <button class="btn-social btn-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Facebook
+                    </button>
+                    <button class="btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                </div>
+                <div class="auth-switch">
+                    <p>Chưa có tài khoản? <a href="#" onclick="switchAuthMode('register'); return false;">Đăng ký ngay</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm" style="display: none;">
+                <div class="auth-header">
+                    <i class="fas fa-user-plus auth-icon"></i>
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p>Tham gia Lucky Casino ngay hôm nay!</p>
+                </div>
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-user"></i>
+                            Tên đăng nhập
+                        </label>
+                        <input type="text" id="registerUsername" placeholder="Chọn tên đăng nhập" required minlength="4">
+                        <small class="form-hint">Ít nhất 4 ký tự</small>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-phone"></i>
+                            Số điện thoại
+                        </label>
+                        <input type="tel" id="registerPhone" placeholder="0123456789" required pattern="[0-9]{10}">
+                        <small class="form-hint">10 chữ số</small>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-lock"></i>
+                            Mật khẩu
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="registerPassword" placeholder="Tạo mật khẩu mạnh" required minlength="6">
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar"></div>
+                        </div>
+                        <small class="form-hint">Ít nhất 6 ký tự</small>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-lock"></i>
+                            Xác nhận mật khẩu
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="registerPasswordConfirm" placeholder="Nhập lại mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('registerPasswordConfirm')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a></span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ageConfirm" required>
+                            <span>Tôi xác nhận đã đủ 18 tuổi</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus"></i>
+                        Đăng Ký
+                    </button>
+                </form>
+                <div class="auth-divider">
+                    <span>hoặc</span>
+                </div>
+                <div class="social-login">
+                    <button class="btn-social btn-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Facebook
+                    </button>
+                    <button class="btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                </div>
+                <div class="auth-switch">
+                    <p>Đã có tài khoản? <a href="#" onclick="switchAuthMode('login'); return false;">Đăng nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal" id="depositModal">
+        <div class="modal-overlay" onclick="closeDepositModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDepositModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-header">
+                <i class="fas fa-wallet"></i>
+                <h2>Nạp Tiền</h2>
+                <p>Chọn phương thức nạp tiền phù hợp</p>
+            </div>
+
+            <div class="deposit-methods">
+                <div class="method-card" onclick="selectDepositMethod('bank')">
+                    <div class="method-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Chuyển Khoản</h3>
+                    <p>Ngân hàng nội địa</p>
+                    <span class="method-badge">Phổ biến</span>
+                </div>
+
+                <div class="method-card" onclick="selectDepositMethod('momo')">
+                    <div class="method-icon momo">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Ví MoMo</h3>
+                    <p>Nạp qua ví điện tử</p>
+                    <span class="method-badge instant">Tức thì</span>
+                </div>
+
+                <div class="method-card" onclick="selectDepositMethod('zalopay')">
+                    <div class="method-icon zalopay">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>ZaloPay</h3>
+                    <p>Thanh toán nhanh</p>
+                    <span class="method-badge instant">Tức thì</span>
+                </div>
+
+                <div class="method-card" onclick="selectDepositMethod('card')">
+                    <div class="method-icon card">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Thẻ Cào</h3>
+                    <p>Viettel, Mobi, Vina</p>
+                    <span class="method-badge">Tiện lợi</span>
+                </div>
+            </div>
+
+            <!-- Deposit Form -->
+            <div class="deposit-form" id="depositForm" style="display: none;">
+                <div class="back-btn" onclick="backToMethods()">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </div>
+
+                <div class="deposit-form-content">
+                    <!-- Bank Transfer -->
+                    <div class="payment-method" id="bankMethod" style="display: none;">
+                        <h3><i class="fas fa-university"></i> Chuyển Khoản Ngân Hàng</h3>
+                        <div class="bank-info">
+                            <div class="info-item">
+                                <label>Ngân hàng:</label>
+                                <span class="copyable" onclick="copyText(this)">Vietcombank <i class="fas fa-copy"></i></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Số tài khoản:</label>
+                                <span class="copyable" onclick="copyText(this)">0123456789 <i class="fas fa-copy"></i></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Chủ tài khoản:</label>
+                                <span>LUCKY CASINO</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Nội dung CK:</label>
+                                <span class="copyable highlight" onclick="copyText(this)">LC<span id="userCode">12345</span> <i class="fas fa-copy"></i></span>
+                            </div>
+                        </div>
+                        <div class="qr-code">
+                            <div class="qr-placeholder">
+                                <i class="fas fa-qrcode"></i>
+                                <p>Mã QR chuyển khoản</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Số tiền nạp (đ):</label>
+                            <input type="number" id="bankAmount" placeholder="Nhập số tiền" min="10000" step="10000">
+                            <div class="quick-amounts">
+                                <button onclick="setAmount(10000)">10,000đ</button>
+                                <button onclick="setAmount(50000)">50,000đ</button>
+                                <button onclick="setAmount(100000)">100,000đ</button>
+                                <button onclick="setAmount(500000)">500,000đ</button>
+                            </div>
+                        </div>
+                        <button class="btn-submit" onclick="confirmDeposit('bank')">
+                            <i class="fas fa-check"></i> Tôi Đã Chuyển Khoản
+                        </button>
+                    </div>
+
+                    <!-- MoMo -->
+                    <div class="payment-method" id="momoMethod" style="display: none;">
+                        <h3><i class="fas fa-mobile-alt"></i> Nạp Qua Ví MoMo</h3>
+                        <div class="ewallet-info">
+                            <div class="info-item">
+                                <label>Số điện thoại:</label>
+                                <span class="copyable" onclick="copyText(this)">0912345678 <i class="fas fa-copy"></i></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Tên:</label>
+                                <span>LUCKY CASINO</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Nội dung:</label>
+                                <span class="copyable highlight" onclick="copyText(this)">LC<span id="userCodeMomo">12345</span> <i class="fas fa-copy"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Số tiền nạp (đ):</label>
+                            <input type="number" id="momoAmount" placeholder="Nhập số tiền" min="10000" step="10000">
+                            <div class="quick-amounts">
+                                <button onclick="setAmount(10000, 'momo')">10,000đ</button>
+                                <button onclick="setAmount(50000, 'momo')">50,000đ</button>
+                                <button onclick="setAmount(100000, 'momo')">100,000đ</button>
+                                <button onclick="setAmount(500000, 'momo')">500,000đ</button>
+                            </div>
+                        </div>
+                        <button class="btn-submit" onclick="confirmDeposit('momo')">
+                            <i class="fas fa-check"></i> Xác Nhận Đã Chuyển
+                        </button>
+                    </div>
+
+                    <!-- ZaloPay -->
+                    <div class="payment-method" id="zalopayMethod" style="display: none;">
+                        <h3><i class="fas fa-wallet"></i> Nạp Qua ZaloPay</h3>
+                        <div class="ewallet-info">
+                            <div class="info-item">
+                                <label>Số điện thoại:</label>
+                                <span class="copyable" onclick="copyText(this)">0987654321 <i class="fas fa-copy"></i></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Tên:</label>
+                                <span>LUCKY CASINO</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Nội dung:</label>
+                                <span class="copyable highlight" onclick="copyText(this)">LC<span id="userCodeZalo">12345</span> <i class="fas fa-copy"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Số tiền nạp (đ):</label>
+                            <input type="number" id="zalopayAmount" placeholder="Nhập số tiền" min="10000" step="10000">
+                            <div class="quick-amounts">
+                                <button onclick="setAmount(10000, 'zalopay')">10,000đ</button>
+                                <button onclick="setAmount(50000, 'zalopay')">50,000đ</button>
+                                <button onclick="setAmount(100000, 'zalopay')">100,000đ</button>
+                                <button onclick="setAmount(500000, 'zalopay')">500,000đ</button>
+                            </div>
+                        </div>
+                        <button class="btn-submit" onclick="confirmDeposit('zalopay')">
+                            <i class="fas fa-check"></i> Xác Nhận Đã Chuyển
+                        </button>
+                    </div>
+
+                    <!-- Card -->
+                    <div class="payment-method" id="cardMethod" style="display: none;">
+                        <h3><i class="fas fa-credit-card"></i> Nạp Bằng Thẻ Cào</h3>
+                        <div class="form-group">
+                            <label>Loại thẻ:</label>
+                            <select id="cardType">
+                                <option value="viettel">Viettel</option>
+                                <option value="mobifone">Mobifone</option>
+                                <option value="vinaphone">Vinaphone</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mệnh giá:</label>
+                            <select id="cardValue">
+                                <option value="10000">10,000đ</option>
+                                <option value="20000">20,000đ</option>
+                                <option value="50000">50,000đ</option>
+                                <option value="100000">100,000đ</option>
+                                <option value="200000">200,000đ</option>
+                                <option value="500000">500,000đ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mã thẻ:</label>
+                            <input type="text" id="cardCode" placeholder="Nhập mã thẻ" maxlength="16">
+                        </div>
+                        <div class="form-group">
+                            <label>Số serial:</label>
+                            <input type="text" id="cardSerial" placeholder="Nhập số serial" maxlength="16">
+                        </div>
+                        <div class="note">
+                            <i class="fas fa-info-circle"></i>
+                            Phí xử lý: 20% (Nhận 80% giá trị thẻ)
+                        </div>
+                        <button class="btn-submit" onclick="confirmDeposit('card')">
+                            <i class="fas fa-check"></i> Nạp Thẻ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-overlay" onclick="closeHistoryModal()"></div>
+        <div class="modal-content modal-large">
+            <button class="modal-close" onclick="closeHistoryModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-header">
+                <i class="fas fa-history"></i>
+                <h2>Lịch Sử Giao Dịch</h2>
+                <p>Xem lại các giao dịch và hoạt động của bạn</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="history-tabs">
+                <button class="tab-btn active" onclick="filterHistory('all')">
+                    <i class="fas fa-list"></i> Tất Cả
+                </button>
+                <button class="tab-btn" onclick="filterHistory('deposit')">
+                    <i class="fas fa-arrow-down"></i> Nạp Tiền
+                </button>
+                <button class="tab-btn" onclick="filterHistory('game')">
+                    <i class="fas fa-gamepad"></i> Chơi Game
+                </button>
+                <button class="tab-btn" onclick="filterHistory('bonus')">
+                    <i class="fas fa-gift"></i> Thưởng
+                </button>
+            </div>
+
+            <!-- History List -->
+            <div class="history-list" id="historyList">
+                <div class="empty-state">
+                    <i class="fas fa-folder-open"></i>
+                    <p>Chưa có giao dịch nào</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="historyPagination" style="display: none;">
+                <button class="page-btn" onclick="previousPage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="page-info">Trang <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
+                <button class="page-btn" onclick="nextPage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
