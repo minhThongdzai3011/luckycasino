@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine 777 - Lucky Casino</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/slot.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%); background-attachment: fixed; margin: 0; min-height: 100vh;">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../../index.html">🎰 Lucky Casino</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../../index.html" class="nav-link">Trang Chủ</a></li>
+                <li><a href="../../index.html#games" class="nav-link">Games</a></li>
+                <li><a href="../deposit.html" class="nav-link">Nạp Tiền</a></li>
+                <li><a href="../history.html" class="nav-link">Lịch Sử</a></li>
+            </ul>
+            <div class="nav-user">
+                <div class="balance">
+                    <i class="fas fa-coins"></i>
+                    <span id="userBalance">0</span>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Header -->
+        <div class="game-header">
+            <h1>🎰 SLOT MACHINE 777 🎰</h1>
+            <p class="game-subtitle">Quay và Khớp Biểu Tượng Để Thắng Lớn!</p>
+        </div>
+
+        <!-- Info Bar -->
+        <div class="game-info-bar">
+            <div class="game-stat">
+                <span class="game-stat-label">💰 Số Dư</span>
+                <span class="game-stat-value" id="userBalance2">0₫</span>
+            </div>
+            <div class="game-stat">
+                <span class="game-stat-label">🎉 Tổng Thắng</span>
+                <span class="game-stat-value" id="totalWins">0₫</span>
+            </div>
+            <div class="game-stat">
+                <span class="game-stat-label">🎰 Lượt Quay</span>
+                <span class="game-stat-value" id="totalSpins">0</span>
+            </div>
+        </div>
+
+        <!-- Slot Machine -->
+        <div class="slot-machine">
+            <div class="slot-machine-top">
+                <div class="slot-title">🎊 LUCKY 777 🎊</div>
+            </div>
+
+            <!-- Reels -->
+            <div class="reels-container">
+                <div class="reel" id="reel1">
+                    <div class="reel-stripe"></div>
+                </div>
+                <div class="reel" id="reel2">
+                    <div class="reel-stripe"></div>
+                </div>
+                <div class="reel" id="reel3">
+                    <div class="reel-stripe"></div>
+                </div>
+                
+                <!-- Win Line Indicator -->
+                <div class="win-line"></div>
+            </div>
+
+            <!-- Spin Button -->
+            <div class="spin-button-container">
+                <button class="spin-btn" id="spinBtn">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                        <i class="fas fa-play" style="font-size: 3rem;"></i>
+                        <span style="font-size: 1.2rem;">QUAY</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Win Display -->
+        <div class="win-display" id="winDisplay">
+            <div class="win-message" id="winMessage">🎉 CHÚC MỪNG! 🎉</div>
+            <div class="win-amount" id="winAmount">+0₫</div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <!-- Bet Section -->
+            <div class="bet-section">
+                <div class="section-title">💵 Đặt Cược</div>
+                <div class="bet-input-group">
+                    <label for="betAmount">Số tiền:</label>
+                    <input type="number" id="betAmount" class="bet-input" value="1000" min="100" step="100">
+                </div>
+                <div class="quick-bets">
+                    <button class="quick-bet-btn" data-action="min">
+                        <i class="fas fa-angle-down"></i> Tối Thiểu
+                    </button>
+                    <button class="quick-bet-btn" data-action="1000">
+                        1,000₫
+                    </button>
+                    <button class="quick-bet-btn" data-action="5000">
+                        5,000₫
+                    </button>
+                    <button class="quick-bet-btn" data-action="10000">
+                        10,000₫
+                    </button>
+                    <button class="quick-bet-btn" data-action="half">
+                        <i class="fas fa-divide"></i> 1/2
+                    </button>
+                    <button class="quick-bet-btn" data-action="x2">
+                        <i class="fas fa-times"></i> x2
+                    </button>
+                    <button class="quick-bet-btn" data-action="max">
+                        <i class="fas fa-angle-up"></i> Tối Đa
+                    </button>
+                    <button class="quick-bet-btn" data-action="50000">
+                        50,000₫
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paytable -->
+        <div class="paytable">
+            <div class="paytable-title">🏆 BẢNG TRẢ THƯỞNG 🏆</div>
+            <div class="paytable-grid">
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>7️⃣</span>
+                        <span>7️⃣</span>
+                        <span>7️⃣</span>
+                    </div>
+                    <div class="paytable-payout">x50 🔥</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>💎</span>
+                        <span>💎</span>
+                        <span>💎</span>
+                    </div>
+                    <div class="paytable-payout">x20 💰</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🔔</span>
+                        <span>🔔</span>
+                        <span>🔔</span>
+                    </div>
+                    <div class="paytable-payout">x10 🎊</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🍇</span>
+                        <span>🍇</span>
+                        <span>🍇</span>
+                    </div>
+                    <div class="paytable-payout">x6 ✨</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🍉</span>
+                        <span>🍉</span>
+                        <span>🍉</span>
+                    </div>
+                    <div class="paytable-payout">x5 🎉</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🍊</span>
+                        <span>🍊</span>
+                        <span>🍊</span>
+                    </div>
+                    <div class="paytable-payout">x4 🌟</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🍋</span>
+                        <span>🍋</span>
+                        <span>🍋</span>
+                    </div>
+                    <div class="paytable-payout">x3 ⭐</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🍒</span>
+                        <span>🍒</span>
+                        <span>🍒</span>
+                    </div>
+                    <div class="paytable-payout">x2 🎁</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>🎰</span>
+                        <span>🎰</span>
+                    </div>
+                    <div class="paytable-payout">x2 💫</div>
+                </div>
+                <div class="paytable-item">
+                    <div class="paytable-symbols">
+                        <span>7️⃣</span>
+                        <span>❓</span>
+                        <span>❓</span>
+                    </div>
+                    <div class="paytable-payout">x1.5 🍀</div>
+                </div>
+            </div>
+            
+            <!-- Game Tips -->
+            <div style="margin-top: 30px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.2);">
+                <h3 style="color: #FFD700; margin-bottom: 15px; text-align: center;">
+                    <i class="fas fa-lightbulb"></i> MẸO CHƠI
+                </h3>
+                <ul style="color: rgba(255, 255, 255, 0.8); line-height: 2;">
+                    <li>🎯 <strong>Ba biểu tượng giống nhau</strong> trên cùng một hàng = Thắng lớn!</li>
+                    <li>💎 <strong>777</strong> là biểu tượng giá trị nhất với hệ số <strong>x50</strong></li>
+                    <li>🍀 Có <strong>ít nhất 1 số 7</strong> sẽ được thưởng an ủi <strong>x1.5</strong></li>
+                    <li>⚡ <strong>Hai biểu tượng giống nhau</strong> = Hoàn vốn <strong>x2</strong></li>
+                    <li>🎰 Nhấn <strong>SPACE</strong> để quay nhanh!</li>
+                    <li>💰 Cược càng cao, thắng càng lớn - nhưng cũng rủi ro hơn!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/main.js"></script>
+    <script src="../../js/slot.js"></script>
+    
+    <style>
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Cược - Lucky Casino</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/bongda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="window.location.href='../../index.html'">
+                    <i class="fas fa-dice"></i>
+                    <span>Lucky Casino</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html" class="nav-link">Trang Chủ</a>
+                    <a href="../../index.html#games" class="nav-link active">Trò Chơi</a>
+                    <a href="../deposit.html" class="nav-link">Nạp Tiền</a>
+                    <a href="../history.html" class="nav-link">Lịch Sử</a>
+                </nav>
+                <div class="balance">
+                    <i class="fas fa-coins"></i>
+                    <span id="headerBalance">0</span>
+                    <span class="currency">đ</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="game-container">
+        <div class="container">
+            <div class="game-header">
+                <a href="bongda.html" style="color: #00d2ff; text-decoration: none; display: inline-block; margin-bottom: 10px;">
+                    <i class="fas fa-arrow-left"></i> Quay lại danh sách trận đấu
+                </a>
+                <h1><i class="fas fa-futbol"></i> ĐẶT CƯỢC TRẬN ĐẤU</h1>
+                <p class="game-subtitle" id="matchTitle">-</p>
+                <button onclick="showMatchDetailInfo()" class="btn-match-info">
+                    <i class="fas fa-info-circle"></i> Xem Thông Tin Trận Đấu
+                </button>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <span>Số dư hiện tại</span>
+                    <strong id="currentBalance">0đ</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Tổng tiền thắng</span>
+                    <strong id="totalWin">0đ</strong>
+                </div>
+                <div class="stat-card">
+                    <span>Vé đã chơi</span>
+                    <strong id="ticketCount">0</strong>
+                </div>
+            </div>
+
+            <div class="layout">
+                <div class="panel">
+                    <h2><i class="fas fa-chart-line"></i> Tỷ Lệ Cược</h2>
+
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span class="league" id="matchLeague">-</span>
+                            <span class="kickoff" id="matchKickoff">-</span>
+                        </div>
+                        <div class="teams">
+                            <div class="team-row">
+                                <span id="homeTeamName">-</span>
+                            </div>
+                            <div class="team-row">
+                                <span id="awayTeamName">-</span>
+                            </div>
+                        </div>
+
+                        <div class="market-block">
+                            <p class="market-title">Kèo 1X2 - Full Time</p>
+                            <div class="odds-grid" id="oddsResult">
+                                <!-- Odds will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="market-block">
+                            <p class="market-title">Kèo Tài/Xỉu - Tổng Bàn Thắng</p>
+                            <div class="odds-grid two-cols" id="oddsGoals">
+                                <button class="odd-btn" data-group="goals" data-market="goals_over" data-label="Tài 2.5 bàn" data-odds="1.92">Tài <small>2.5 bàn</small> 1.92</button>
+                                <button class="odd-btn" data-group="goals" data-market="goals_under" data-label="Xỉu 2.5 bàn" data-odds="1.88">Xỉu <small>2.5 bàn</small> 1.88</button>
+                            </div>
+                        </div>
+
+                        <div class="market-block">
+                            <p class="market-title">Kèo Thẻ Phạt</p>
+                            <div class="odds-grid two-cols" id="oddsCards">
+                                <button class="odd-btn" data-group="cards" data-market="cards_over" data-label="Tài Thẻ 4.5" data-odds="1.90">Tài <small>Thẻ 4.5</small> 1.90</button>
+                                <button class="odd-btn" data-group="cards" data-market="cards_under" data-label="Xỉu Thẻ 4.5" data-odds="1.90">Xỉu <small>Thẻ 4.5</small> 1.90</button>
+                            </div>
+                        </div>
+
+                        <div class="market-block">
+                            <p class="market-title">Kèo Phạt Góc</p>
+                            <div class="odds-grid two-cols" id="oddsCorners">
+                                <button class="odd-btn" data-group="corners" data-market="corners_over" data-label="Tài Góc 9.5" data-odds="1.92">Tài <small>Góc 9.5</small> 1.92</button>
+                                <button class="odd-btn" data-group="corners" data-market="corners_under" data-label="Xỉu Góc 9.5" data-odds="1.88">Xỉu <small>Góc 9.5</small> 1.88</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2><i class="fas fa-ticket-alt"></i> Phiếu Cược</h2>
+                    <div class="bet-box">
+                        <div class="selected-bet" id="selectedBet">Chưa chọn cửa cược.</div>
+                        <input class="amount-input" id="betAmount" type="number" min="1000" step="1000" placeholder="Nhập số tiền (>= 1,000đ)">
+                        <div class="quick-amounts">
+                            <button class="quick-btn" data-amount="10000">10K</button>
+                            <button class="quick-btn" data-amount="50000">50K</button>
+                            <button class="quick-btn" data-amount="100000">100K</button>
+                            <button class="quick-btn" data-amount="200000">200K</button>
+                            <button class="quick-btn" data-amount="500000">500K</button>
+                            <button class="quick-btn" data-amount="all">All In</button>
+                        </div>
+                        <div class="payout" id="estimatedPayout">Tiền nhận dự kiến: 0đ</div>
+                        <button class="btn-place" id="placeBetBtn"><i class="fas fa-play"></i> Đặt Cược Ngay</button>
+                        <div class="result-box" id="resultBox">Kết quả vé cược sẽ hiển thị tại đây.</div>
+                        <p class="small-note">Kết quả được mô phỏng ngẫu nhiên theo tỷ lệ cược đã chọn. Mọi dữ liệu chỉ để demo và giải trí.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Result Section (Hidden by default) -->
+            <div class="match-result-section" id="matchResultSection" style="display: none;">
+                <!-- Result will be displayed here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal thông tin trận đấu -->
+    <div class="modal" id="matchInfoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMatchInfo()">&times;</button>
+            
+            <div class="modal-header">
+                <h2><i class="fas fa-futbol"></i> Thông Tin Trận Đấu</h2>
+                <p><span id="modalHomeTeam">-</span> vs <span id="modalAwayTeam">-</span></p>
+            </div>
+
+            <div class="match-info-grid">
+                <div class="info-item">
+                    <div class="info-label">Giải đấu</div>
+                    <div class="info-value" id="modalLeague">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Thời gian</div>
+                    <div class="info-value" id="modalKickoff">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Sân vận động</div>
+                    <div class="info-value" id="modalStadium">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Sức chứa</div>
+                    <div class="info-value" id="modalCapacity">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Trọng tài</div>
+                    <div class="info-value" id="modalReferee">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Thời tiết</div>
+                    <div class="info-value" id="modalWeather">-</div>
+                </div>
+            </div>
+
+            <div class="lineup-section">
+                <h3><i class="fas fa-users"></i> Đội Hình <span id="modalHomeTeam2"></span></h3>
+                <div class="staff-grid">
+                    <div class="staff-item">
+                        <div class="staff-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="staff-details">
+                            <div class="role">Huấn luyện viên</div>
+                            <div class="name" id="modalHomeCoach">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formation-display">
+                    <h4 id="homeFormation">4-4-2</h4>
+                </div>
+                <div id="homeLineup"></div>
+                <h4 style="color: #00d2ff; margin: 15px 0 10px;">Dự bị</h4>
+                <div class="substitutes-list" id="homeSubstitutes"></div>
+            </div>
+
+            <div class="lineup-section">
+                <h3><i class="fas fa-users"></i> Đội Hình <span id="modalAwayTeam2"></span></h3>
+                <div class="staff-grid">
+                    <div class="staff-item">
+                        <div class="staff-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="staff-details">
+                            <div class="role">Huấn luyện viên</div>
+                            <div class="name" id="modalAwayCoach">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formation-display">
+                    <h4 id="awayFormation">4-3-3</h4>
+                </div>
+                <div id="awayLineup"></div>
+                <h4 style="color: #00d2ff; margin: 15px 0 10px;">Dự bị</h4>
+                <div class="substitutes-list" id="awaySubstitutes"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/bongda.js"></script>
+    <script>
+        let matchData = null;
+        let matchDetails = null;
+
+        // Load selected match from localStorage
+        function loadMatchData() {
+            const raw = localStorage.getItem('selectedMatch');
+            if (!raw) {
+                alert('Không tìm thấy thông tin trận đấu. Quay lại trang chủ.');
+                window.location.href = 'bongda.html';
+                return false;
+            }
+
+            try {
+                matchData = JSON.parse(raw);
+            } catch (error) {
+                alert('Dữ liệu trận đấu không hợp lệ.');
+                window.location.href = 'bongda.html';
+                return false;
+            }
+
+            currentMatch = matchData;
+            // Generate match details immediately
+            matchDetails = generateMatchDetails(matchData.homeTeam, matchData.awayTeam);
+            return true;
+        }
+
+        // Show match detail info in modal
+        function showMatchDetailInfo() {
+            if (!matchDetails) {
+                matchDetails = generateMatchDetails(matchData.homeTeam, matchData.awayTeam);
+            }
+
+            const modal = document.getElementById('matchInfoModal');
+            if (!modal) return;
+
+            // Fill modal content
+            document.getElementById('modalHomeTeam').textContent = matchDetails.homeTeam;
+            document.getElementById('modalAwayTeam').textContent = matchDetails.awayTeam;
+            document.getElementById('modalHomeTeam2').textContent = matchDetails.homeTeam;
+            document.getElementById('modalAwayTeam2').textContent = matchDetails.awayTeam;
+            document.getElementById('modalLeague').textContent = matchData.league;
+            document.getElementById('modalKickoff').textContent = matchData.kickoff;
+            document.getElementById('modalStadium').textContent = matchDetails.stadium;
+            document.getElementById('modalCapacity').textContent = matchDetails.capacity + ' chỗ';
+            document.getElementById('modalReferee').textContent = matchDetails.referee;
+            document.getElementById('modalWeather').textContent = matchDetails.weather + ' • ' + matchDetails.temperature;
+            document.getElementById('modalHomeCoach').textContent = matchDetails.homeCoach;
+            document.getElementById('modalAwayCoach').textContent = matchDetails.awayCoach;
+
+            // Home lineup
+            document.getElementById('homeFormation').textContent = matchDetails.homeLineup.formation;
+            renderLineup('homeLineup', matchDetails.homeLineup);
+            renderSubstitutes('homeSubstitutes', matchDetails.homeSubstitutes);
+
+            // Away lineup
+            document.getElementById('awayFormation').textContent = matchDetails.awayLineup.formation;
+            renderLineup('awayLineup', matchDetails.awayLineup);
+            renderSubstitutes('awaySubstitutes', matchDetails.awaySubstitutes);
+
+            modal.classList.add('active');
+        }
+
+        // Display match information
+        function displayMatchInfo() {
+            document.getElementById('matchTitle').textContent = matchData.homeTeam + ' vs ' + matchData.awayTeam;
+            document.getElementById('matchLeague').innerHTML = '<i class="fas fa-trophy"></i> ' + matchData.league;
+            document.getElementById('matchKickoff').innerHTML = '<i class="fas fa-clock"></i> ' + matchData.kickoff;
+            document.getElementById('homeTeamName').textContent = matchData.homeTeam;
+            document.getElementById('awayTeamName').textContent = matchData.awayTeam;
+
+            // Generate 1X2 odds
+            const oddsResultHtml = `
+                <button class="odd-btn" data-group="result" data-market="home" data-label="Đội Chủ Thắng (1)" data-odds="${matchData.odds.home}">
+                    1 <small>Chủ</small> ${matchData.odds.home}
+                </button>
+                <button class="odd-btn" data-group="result" data-market="draw" data-label="Hòa (X)" data-odds="${matchData.odds.draw}">
+                    X <small>Hòa</small> ${matchData.odds.draw}
+                </button>
+                <button class="odd-btn" data-group="result" data-market="away" data-label="Đội Khách Thắng (2)" data-odds="${matchData.odds.away}">
+                    2 <small>Khách</small> ${matchData.odds.away}
+                </button>
+            `;
+            document.getElementById('oddsResult').innerHTML = oddsResultHtml;
+
+            // Update markets in matchData
+            matchData.markets = {
+                result: [
+                    { market: 'home', label: 'Đội Chủ Thắng (1)', odds: parseFloat(matchData.odds.home) },
+                    { market: 'draw', label: 'Hòa (X)', odds: parseFloat(matchData.odds.draw) },
+                    { market: 'away', label: 'Đội Khách Thắng (2)', odds: parseFloat(matchData.odds.away) }
+                ],
+                goals: [
+                    { market: 'goals_over', label: 'Tài 2.5 bàn', odds: 1.92 },
+                    { market: 'goals_under', label: 'Xỉu 2.5 bàn', odds: 1.88 }
+                ],
+                cards: [
+                    { market: 'cards_over', label: 'Tài Thẻ 4.5', odds: 1.90 },
+                    { market: 'cards_under', label: 'Xỉu Thẻ 4.5', odds: 1.90 }
+                ],
+                corners: [
+                    { market: 'corners_over', label: 'Tài Góc 9.5', odds: 1.92 },
+                    { market: 'corners_under', label: 'Xỉu Góc 9.5', odds: 1.88 }
+                ]
+            };
+
+            // Attach event listeners to all odds buttons
+            document.querySelectorAll('.odd-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setSelectedBet(this);
+                });
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!loadUser()) {
+                return;
+            }
+
+            if (!loadMatchData()) {
+                return;
+            }
+
+            updateBalanceUI();
+            displayMatchInfo();
+
+            // Quick amount buttons
+            document.querySelectorAll('.quick-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const value = this.dataset.amount;
+                    const input = document.getElementById('betAmount');
+
+                    if (value === 'all') {
+                        input.value = Math.floor(userBalance);
+                    } else {
+                        input.value = Number(value);
+                    }
+
+                    updateEstimatedPayout();
+                });
+            });
+
+            // Bet amount input
+            document.getElementById('betAmount').addEventListener('input', updateEstimatedPayout);
+
+            // Place bet button
+            document.getElementById('placeBetBtn').addEventListener('click', placeBet);
+
+            // Close modal on click outside
+            document.getElementById('matchInfoModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeMatchInfo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -5,258 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bóng Đá - Lucky Casino</title>
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/bongda.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .game-container {
-            min-height: 100vh;
-            padding: 120px 0 60px;
-        }
-
-        .game-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .game-header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .game-subtitle {
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 14px;
-            text-align: center;
-        }
-
-        .stat-card span {
-            display: block;
-            color: rgba(255, 255, 255, 0.65);
-            font-size: 0.9rem;
-        }
-
-        .stat-card strong {
-            color: #ffd700;
-            font-size: 1.35rem;
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .panel {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 18px;
-            padding: 18px;
-        }
-
-        .panel h2 {
-            margin-bottom: 14px;
-            color: #ffd700;
-            font-size: 1.3rem;
-        }
-
-        .match-card {
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 14px;
-            background: rgba(0, 0, 0, 0.18);
-        }
-
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .league {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.65);
-        }
-
-        .kickoff {
-            font-size: 0.85rem;
-            color: #6ee7ff;
-        }
-
-        .teams {
-            display: grid;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .team-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            font-weight: 600;
-        }
-
-        .odds-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .market-block {
-            margin-top: 10px;
-        }
-
-        .market-title {
-            margin: 0 0 8px;
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .odds-grid.two-cols {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .odd-btn {
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            border-radius: 10px;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 700;
-        }
-
-        .odd-btn small {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .odd-btn:hover {
-            border-color: #6ee7ff;
-            transform: translateY(-2px);
-        }
-
-        .odd-btn.active {
-            border-color: #00d2ff;
-            background: linear-gradient(145deg, rgba(0, 210, 255, 0.25), rgba(58, 123, 213, 0.25));
-            box-shadow: 0 8px 24px rgba(0, 210, 255, 0.2);
-        }
-
-        .bet-box {
-            display: grid;
-            gap: 12px;
-        }
-
-        .selected-bet {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed rgba(255, 255, 255, 0.25);
-            border-radius: 12px;
-            padding: 12px;
-            color: rgba(255, 255, 255, 0.88);
-            min-height: 78px;
-        }
-
-        .amount-input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            outline: none;
-        }
-
-        .quick-amounts {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .quick-btn {
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        .payout {
-            color: #7ef29a;
-            font-weight: 700;
-        }
-
-        .btn-place {
-            border: none;
-            border-radius: 12px;
-            padding: 12px;
-            font-weight: 800;
-            color: #00141f;
-            cursor: pointer;
-            background: linear-gradient(135deg, #00d2ff 0%, #78ffd6 100%);
-        }
-
-        .result-box {
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .result-box.win {
-            border-color: rgba(126, 242, 154, 0.8);
-            background: rgba(126, 242, 154, 0.14);
-        }
-
-        .result-box.lose {
-            border-color: rgba(255, 120, 120, 0.8);
-            background: rgba(255, 120, 120, 0.14);
-        }
-
-        .small-note {
-            color: rgba(255, 255, 255, 0.62);
-            font-size: 0.85rem;
-            line-height: 1.45;
-        }
-
-        @media (max-width: 900px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-bar {
-                grid-template-columns: 1fr;
-            }
-
-            .game-header h1 {
-                font-size: 2.1rem;
-            }
-        }
+        /* Additional inline styles if needed */
     </style>
 </head>
 <body>
@@ -286,7 +38,7 @@
         <div class="container">
             <div class="game-header">
                 <h1><i class="fas fa-futbol"></i> CÁ ĐỘ BÓNG ĐÁ</h1>
-                <p class="game-subtitle">Mô phỏng cá cược 1X2 với tỷ lệ trực tiếp. Chỉ dùng để giải trí.</p>
+                <p class="game-subtitle">Chọn trận đấu để bắt đầu đặt cược. Mô phỏng cá cược với tỷ lệ trực tiếp.</p>
             </div>
 
             <div class="stats-bar">
@@ -304,418 +56,211 @@
                 </div>
             </div>
 
-            <div class="layout">
-                <div class="panel">
-                    <h2><i class="fas fa-list"></i> Trận Đấu Hot</h2>
-
-                    <div class="match-card" data-match="0">
-                        <div class="match-header">
-                            <span class="league">Premier League</span>
-                            <span class="kickoff"><i class="fas fa-clock"></i> 21:30</span>
-                        </div>
-                        <div class="teams">
-                            <div class="team-row"><span>Manchester Blue</span><span>vs</span></div>
-                            <div class="team-row"><span>London Reds</span><span>FT</span></div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo 1X2</p>
-                            <div class="odds-grid">
-                                <button class="odd-btn" data-group="result" data-market="home" data-label="Đội Chủ Thắng (1)" data-odds="1.88">1 <small>Chủ</small> 1.88</button>
-                                <button class="odd-btn" data-group="result" data-market="draw" data-label="Hòa (X)" data-odds="3.40">X <small>Hòa</small> 3.40</button>
-                                <button class="odd-btn" data-group="result" data-market="away" data-label="Đội Khách Thắng (2)" data-odds="4.20">2 <small>Khách</small> 4.20</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Thẻ (Tài/Xỉu 4.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="cards" data-market="cards_over" data-label="Tài Thẻ 4.5" data-odds="1.90">Tài <small>Thẻ 4.5</small> 1.90</button>
-                                <button class="odd-btn" data-group="cards" data-market="cards_under" data-label="Xỉu Thẻ 4.5" data-odds="1.90">Xỉu <small>Thẻ 4.5</small> 1.90</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Góc (Tài/Xỉu 9.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="corners" data-market="corners_over" data-label="Tài Góc 9.5" data-odds="1.92">Tài <small>Góc 9.5</small> 1.92</button>
-                                <button class="odd-btn" data-group="corners" data-market="corners_under" data-label="Xỉu Góc 9.5" data-odds="1.88">Xỉu <small>Góc 9.5</small> 1.88</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="match-card" data-match="1">
-                        <div class="match-header">
-                            <span class="league">La Liga</span>
-                            <span class="kickoff"><i class="fas fa-clock"></i> 00:00</span>
-                        </div>
-                        <div class="teams">
-                            <div class="team-row"><span>Madrid Stars</span><span>vs</span></div>
-                            <div class="team-row"><span>Catalan Wave</span><span>FT</span></div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo 1X2</p>
-                            <div class="odds-grid">
-                                <button class="odd-btn" data-group="result" data-market="home" data-label="Đội Chủ Thắng (1)" data-odds="2.15">1 <small>Chủ</small> 2.15</button>
-                                <button class="odd-btn" data-group="result" data-market="draw" data-label="Hòa (X)" data-odds="3.10">X <small>Hòa</small> 3.10</button>
-                                <button class="odd-btn" data-group="result" data-market="away" data-label="Đội Khách Thắng (2)" data-odds="3.05">2 <small>Khách</small> 3.05</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Thẻ (Tài/Xỉu 3.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="cards" data-market="cards_over" data-label="Tài Thẻ 3.5" data-odds="1.85">Tài <small>Thẻ 3.5</small> 1.85</button>
-                                <button class="odd-btn" data-group="cards" data-market="cards_under" data-label="Xỉu Thẻ 3.5" data-odds="1.95">Xỉu <small>Thẻ 3.5</small> 1.95</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Góc (Tài/Xỉu 10.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="corners" data-market="corners_over" data-label="Tài Góc 10.5" data-odds="1.97">Tài <small>Góc 10.5</small> 1.97</button>
-                                <button class="odd-btn" data-group="corners" data-market="corners_under" data-label="Xỉu Góc 10.5" data-odds="1.83">Xỉu <small>Góc 10.5</small> 1.83</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="match-card" data-match="2">
-                        <div class="match-header">
-                            <span class="league">Serie A</span>
-                            <span class="kickoff"><i class="fas fa-clock"></i> 02:45</span>
-                        </div>
-                        <div class="teams">
-                            <div class="team-row"><span>Turin Black</span><span>vs</span></div>
-                            <div class="team-row"><span>Milan Green</span><span>FT</span></div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo 1X2</p>
-                            <div class="odds-grid">
-                                <button class="odd-btn" data-group="result" data-market="home" data-label="Đội Chủ Thắng (1)" data-odds="2.55">1 <small>Chủ</small> 2.55</button>
-                                <button class="odd-btn" data-group="result" data-market="draw" data-label="Hòa (X)" data-odds="2.95">X <small>Hòa</small> 2.95</button>
-                                <button class="odd-btn" data-group="result" data-market="away" data-label="Đội Khách Thắng (2)" data-odds="2.65">2 <small>Khách</small> 2.65</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Thẻ (Tài/Xỉu 5.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="cards" data-market="cards_over" data-label="Tài Thẻ 5.5" data-odds="2.00">Tài <small>Thẻ 5.5</small> 2.00</button>
-                                <button class="odd-btn" data-group="cards" data-market="cards_under" data-label="Xỉu Thẻ 5.5" data-odds="1.80">Xỉu <small>Thẻ 5.5</small> 1.80</button>
-                            </div>
-                        </div>
-                        <div class="market-block">
-                            <p class="market-title">Kèo Góc (Tài/Xỉu 8.5)</p>
-                            <div class="odds-grid two-cols">
-                                <button class="odd-btn" data-group="corners" data-market="corners_over" data-label="Tài Góc 8.5" data-odds="1.84">Tài <small>Góc 8.5</small> 1.84</button>
-                                <button class="odd-btn" data-group="corners" data-market="corners_under" data-label="Xỉu Góc 8.5" data-odds="1.98">Xỉu <small>Góc 8.5</small> 1.98</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <h2><i class="fas fa-ticket-alt"></i> Phiếu Cược</h2>
-                    <div class="bet-box">
-                        <div class="selected-bet" id="selectedBet">Chưa chọn cửa cược.</div>
-                        <input class="amount-input" id="betAmount" type="number" min="1000" step="1000" placeholder="Nhập số tiền (>= 1,000đ)">
-                        <div class="quick-amounts">
-                            <button class="quick-btn" data-amount="10000">10K</button>
-                            <button class="quick-btn" data-amount="50000">50K</button>
-                            <button class="quick-btn" data-amount="100000">100K</button>
-                            <button class="quick-btn" data-amount="200000">200K</button>
-                            <button class="quick-btn" data-amount="500000">500K</button>
-                            <button class="quick-btn" data-amount="all">All In</button>
-                        </div>
-                        <div class="payout" id="estimatedPayout">Tiền nhận dự kiến: 0đ</div>
-                        <button class="btn-place" id="placeBetBtn"><i class="fas fa-play"></i> Đặt Cược Ngay</button>
-                        <div class="result-box" id="resultBox">Kết quả vé cược sẽ hiển thị tại đây.</div>
-                        <p class="small-note">Kết quả được mô phỏng ngẫu nhiên theo tỷ lệ cược đã chọn. Mọi dữ liệu chỉ để demo và giải trí.</p>
-                    </div>
-                </div>
+            <div class="matches-grid" id="matchesGrid">
+                <!-- Matches will be dynamically generated -->
             </div>
         </div>
     </section>
 
+    <!-- Modal thông tin trận đấu -->
+    <div class="modal" id="matchInfoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMatchInfo()">&times;</button>
+            
+            <div class="modal-header">
+                <h2><i class="fas fa-futbol"></i> Thông Tin Trận Đấu</h2>
+                <p><span id="modalHomeTeam">-</span> vs <span id="modalAwayTeam">-</span></p>
+            </div>
+
+            <div class="match-info-grid">
+                <div class="info-item">
+                    <div class="info-label">Giải đấu</div>
+                    <div class="info-value" id="modalLeague">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Thời gian</div>
+                    <div class="info-value" id="modalKickoff">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Sân vận động</div>
+                    <div class="info-value" id="modalStadium">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Sức chứa</div>
+                    <div class="info-value" id="modalCapacity">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Trọng tài</div>
+                    <div class="info-value" id="modalReferee">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Thời tiết</div>
+                    <div class="info-value" id="modalWeather">-</div>
+                </div>
+            </div>
+
+            <div class="lineup-section">
+                <h3><i class="fas fa-users"></i> Đội Hình <span id="modalHomeTeam2"></span></h3>
+                <div class="staff-grid">
+                    <div class="staff-item">
+                        <div class="staff-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="staff-details">
+                            <div class="role">Huấn luyện viên</div>
+                            <div class="name" id="modalHomeCoach">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formation-display">
+                    <h4 id="homeFormation">4-4-2</h4>
+                </div>
+                <div id="homeLineup"></div>
+                <h4 style="color: #00d2ff; margin: 15px 0 10px;">Dự bị</h4>
+                <div class="substitutes-list" id="homeSubstitutes"></div>
+            </div>
+
+            <div class="lineup-section">
+                <h3><i class="fas fa-users"></i> Đội Hình <span id="modalAwayTeam2"></span></h3>
+                <div class="staff-grid">
+                    <div class="staff-item">
+                        <div class="staff-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="staff-details">
+                            <div class="role">Huấn luyện viên</div>
+                            <div class="name" id="modalAwayCoach">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formation-display">
+                    <h4 id="awayFormation">4-3-3</h4>
+                </div>
+                <div id="awayLineup"></div>
+                <h4 style="color: #00d2ff; margin: 15px 0 10px;">Dự bị</h4>
+                <div class="substitutes-list" id="awaySubstitutes"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/bongda.js"></script>
     <script>
-        let currentUser = null;
-        let userBalance = 0;
-        let totalWin = 0;
-        let ticketCount = 0;
-        let selectedBet = null;
+        // Generate sample matches
+        const LEAGUES = ['Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Ligue 1'];
+        const KICKOFF_TIMES = ['19:00', '21:30', '00:00', '02:45', '23:00', '20:30'];
 
-        const TEAM_POOL = [
-            'Hanoi Dragons',
-            'Saigon Thunder',
-            'Da Nang Waves',
-            'Can Tho United',
-            'Hue Warriors',
-            'Hai Phong Sharks',
-            'Nha Trang FC',
-            'Quang Ninh Stars',
-            'Binh Duong Eagles',
-            'Nam Dinh Lions',
-            'Vung Tau Storm',
-            'Thai Binh City'
-        ];
+        function generateSampleMatches() {
+            const matchesData = [];
+            const usedTeams = [];
 
-        function formatMoney(amount) {
-            return Math.floor(amount).toLocaleString('vi-VN') + 'đ';
-        }
+            for (let i = 0; i < 6; i++) {
+                let homeTeam, awayTeam;
+                
+                do {
+                    homeTeam = TEAM_POOL[Math.floor(Math.random() * TEAM_POOL.length)];
+                } while (usedTeams.includes(homeTeam.name));
+                usedTeams.push(homeTeam.name);
 
-        function getRandomTeamPair(pool) {
-            const firstIndex = Math.floor(Math.random() * pool.length);
-            const firstTeam = pool.splice(firstIndex, 1)[0];
+                do {
+                    awayTeam = TEAM_POOL[Math.floor(Math.random() * TEAM_POOL.length)];
+                } while (usedTeams.includes(awayTeam.name) || awayTeam.name === homeTeam.name);
+                usedTeams.push(awayTeam.name);
 
-            const secondIndex = Math.floor(Math.random() * pool.length);
-            const secondTeam = pool.splice(secondIndex, 1)[0];
+                const homeOdds = (1.5 + Math.random() * 2.5).toFixed(2);
+                const drawOdds = (2.8 + Math.random() * 1.2).toFixed(2);
+                const awayOdds = (2.0 + Math.random() * 3.0).toFixed(2);
 
-            return [firstTeam, secondTeam];
-        }
-
-        function rotateTeamNames() {
-            const matchCards = document.querySelectorAll('.match-card');
-            if (matchCards.length === 0) {
-                return;
-            }
-
-            const shuffledPool = [...TEAM_POOL].sort(() => Math.random() - 0.5);
-
-            matchCards.forEach(card => {
-                if (shuffledPool.length < 2) {
-                    return;
-                }
-
-                const teamSpans = card.querySelectorAll('.team-row span:first-child');
-                if (teamSpans.length < 2) {
-                    return;
-                }
-
-                const pair = getRandomTeamPair(shuffledPool);
-                teamSpans[0].textContent = pair[0];
-                teamSpans[1].textContent = pair[1];
-            });
-
-            selectedBet = null;
-            document.querySelectorAll('.odd-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('selectedBet').textContent = 'Đã làm mới đội bóng, vui lòng chọn lại cửa cược.';
-            updateEstimatedPayout();
-        }
-
-        function loadUser() {
-            const raw = localStorage.getItem('currentUser');
-            if (!raw) {
-                alert('Vui lòng đăng nhập trước khi chơi game.');
-                window.location.href = '../../index.html';
-                return;
-            }
-
-            try {
-                currentUser = JSON.parse(raw);
-            } catch (error) {
-                currentUser = null;
-            }
-
-            if (!currentUser || !currentUser.username) {
-                alert('Thông tin tài khoản không hợp lệ, vui lòng đăng nhập lại.');
-                window.location.href = '../../index.html';
-                return;
-            }
-
-            userBalance = Number(currentUser.balance || 0);
-            updateBalanceUI();
-        }
-
-        function updateBalanceUI() {
-            document.getElementById('currentBalance').textContent = formatMoney(userBalance);
-            document.getElementById('headerBalance').textContent = Math.floor(userBalance).toLocaleString('vi-VN');
-            document.getElementById('totalWin').textContent = formatMoney(totalWin);
-            document.getElementById('ticketCount').textContent = String(ticketCount);
-        }
-
-        function persistUserBalance() {
-            currentUser.balance = userBalance;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const idx = users.findIndex(u => u.username === currentUser.username);
-            if (idx >= 0) {
-                users[idx].balance = userBalance;
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-        }
-
-        function addTransaction(amount, status, detail) {
-            const history = JSON.parse(localStorage.getItem('transactionHistory') || '[]');
-            history.push({
-                id: Date.now().toString(),
-                username: currentUser.username,
-                type: 'game',
-                game: 'Bóng Đá',
-                amount: amount,
-                status: status,
-                date: new Date().toISOString(),
-                detail: detail
-            });
-            localStorage.setItem('transactionHistory', JSON.stringify(history));
-        }
-
-        function setSelectedBet(button) {
-            document.querySelectorAll('.odd-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            const matchCard = button.closest('.match-card');
-            const teamRows = matchCard.querySelectorAll('.team-row span:first-child');
-            const homeTeam = teamRows[0].textContent;
-            const awayTeam = teamRows[1].textContent;
-            const group = button.dataset.group;
-            const market = button.dataset.market;
-            const label = button.dataset.label || market;
-            const odds = Number(button.dataset.odds);
-
-            selectedBet = {
-                match: homeTeam + ' vs ' + awayTeam,
-                group: group,
-                market: market,
-                label: label,
-                odds: odds
-            };
-
-            document.getElementById('selectedBet').innerHTML =
-                '<strong>' + selectedBet.match + '</strong><br>' +
-                selectedBet.label + ' - Odds: <strong>' + selectedBet.odds.toFixed(2) + '</strong>';
-
-            updateEstimatedPayout();
-        }
-
-        function updateEstimatedPayout() {
-            const amount = Number(document.getElementById('betAmount').value || 0);
-            const payout = selectedBet ? amount * selectedBet.odds : 0;
-            document.getElementById('estimatedPayout').textContent = 'Tiền nhận dự kiến: ' + formatMoney(payout);
-        }
-
-        function pickResultFromOdds(matchCard, group) {
-            const options = Array.from(matchCard.querySelectorAll('.odd-btn'))
-                .filter(btn => btn.dataset.group === group)
-                .map(btn => ({
-                market: btn.dataset.market,
-                odds: Number(btn.dataset.odds)
-            }));
-
-            if (options.length === 0) {
-                return null;
-            }
-
-            const weighted = options.map(o => ({
-                market: o.market,
-                weight: 1 / o.odds
-            }));
-
-            const totalWeight = weighted.reduce((sum, item) => sum + item.weight, 0);
-            const r = Math.random() * totalWeight;
-            let acc = 0;
-
-            for (const item of weighted) {
-                acc += item.weight;
-                if (r <= acc) {
-                    return item.market;
-                }
-            }
-
-            return weighted[weighted.length - 1].market;
-        }
-
-        function getMarketLabel(matchCard, group, market) {
-            const target = matchCard.querySelector('.odd-btn[data-group="' + group + '"][data-market="' + market + '"]');
-            return target ? (target.dataset.label || market) : market;
-        }
-
-        function placeBet() {
-            const amount = Number(document.getElementById('betAmount').value || 0);
-            const resultBox = document.getElementById('resultBox');
-
-            if (!selectedBet) {
-                resultBox.className = 'result-box lose';
-                resultBox.textContent = 'Bạn chưa chọn cửa cược.';
-                return;
-            }
-
-            if (!Number.isFinite(amount) || amount < 1000) {
-                resultBox.className = 'result-box lose';
-                resultBox.textContent = 'Tiền cược tối thiểu là 1,000đ.';
-                return;
-            }
-
-            if (amount > userBalance) {
-                resultBox.className = 'result-box lose';
-                resultBox.textContent = 'Số dư không đủ để đặt cược.';
-                return;
-            }
-
-            const matchCard = Array.from(document.querySelectorAll('.match-card')).find(card => {
-                const teams = card.querySelectorAll('.team-row span:first-child');
-                const name = teams[0].textContent + ' vs ' + teams[1].textContent;
-                return name === selectedBet.match;
-            });
-
-            const finalResult = pickResultFromOdds(matchCard, selectedBet.group);
-            if (!finalResult) {
-                resultBox.className = 'result-box lose';
-                resultBox.textContent = 'Không thể xử lý kèo đã chọn, vui lòng thử lại.';
-                return;
-            }
-
-            const finalLabel = getMarketLabel(matchCard, selectedBet.group, finalResult);
-            const isWin = finalResult === selectedBet.market;
-
-            userBalance -= amount;
-            let netAmount = -amount;
-
-            if (isWin) {
-                const grossWin = amount * selectedBet.odds;
-                userBalance += grossWin;
-                totalWin += (grossWin - amount);
-                netAmount = Math.floor(grossWin - amount);
-
-                resultBox.className = 'result-box win';
-                resultBox.innerHTML = 'Kết quả: <strong>' + finalLabel + '</strong><br>' +
-                    'Bạn THẮNG ' + formatMoney(grossWin - amount) + ' (tổng nhận ' + formatMoney(grossWin) + ').';
-                addTransaction(netAmount, 'success', 'Thang cuoc bong da');
-            } else {
-                resultBox.className = 'result-box lose';
-                resultBox.innerHTML = 'Kết quả: <strong>' + finalLabel + '</strong><br>' +
-                    'Bạn thua ' + formatMoney(amount) + '. Chúc may mắn lượt sau!';
-                addTransaction(netAmount, 'failed', 'Thua cuoc bong da');
-            }
-
-            ticketCount += 1;
-            persistUserBalance();
-            updateBalanceUI();
-            document.getElementById('betAmount').value = '';
-            updateEstimatedPayout();
-            rotateTeamNames();
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            loadUser();
-
-            document.querySelectorAll('.odd-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    setSelectedBet(this);
-                });
-            });
-
-            document.querySelectorAll('.quick-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const value = this.dataset.amount;
-                    const input = document.getElementById('betAmount');
-
-                    if (value === 'all') {
-                        input.value = Math.floor(userBalance);
-                    } else {
-                        input.value = Number(value);
+                matchesData.push({
+                    id: i,
+                    league: LEAGUES[i % LEAGUES.length],
+                    kickoff: KICKOFF_TIMES[i],
+                    homeTeam: homeTeam.name,
+                    awayTeam: awayTeam.name,
+                    odds: {
+                        home: homeOdds,
+                        draw: drawOdds,
+                        away: awayOdds
+                    },
+                    markets: {
+                        result: [
+                            { market: 'home', label: 'Đội Chủ Thắng (1)', odds: parseFloat(homeOdds) },
+                            { market: 'draw', label: 'Hòa (X)', odds: parseFloat(drawOdds) },
+                            { market: 'away', label: 'Đội Khách Thắng (2)', odds: parseFloat(awayOdds) }
+                        ]
                     }
-
-                    updateEstimatedPayout();
                 });
-            });
+            }
 
-            document.getElementById('betAmount').addEventListener('input', updateEstimatedPayout);
-            document.getElementById('placeBetBtn').addEventListener('click', placeBet);
+            return matchesData;
+        }
+
+        function renderMatches() {
+            const matches = generateSampleMatches();
+            const grid = document.getElementById('matchesGrid');
+            
+            grid.innerHTML = matches.map(match => `
+                <div class="match-card" data-match-id="${match.id}">
+                    <div class="match-header">
+                        <span class="league"><i class="fas fa-trophy"></i> ${match.league}</span>
+                        <span class="kickoff"><i class="fas fa-clock"></i> ${match.kickoff}</span>
+                    </div>
+                    <div class="teams">
+                        <div class="team-row">
+                            <div class="team-name">
+                                <span class="team-logo">${match.homeTeam.substring(0, 2)}</span>
+                                <span>${match.homeTeam}</span>
+                            </div>
+                        </div>
+                        <div class="team-row">
+                            <div class="team-name">
+                                <span class="team-logo">${match.awayTeam.substring(0, 2)}</span>
+                                <span>${match.awayTeam}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="odds-preview">
+                        <div class="odd-badge">
+                            <span>Chủ</span>
+                            <strong>${match.odds.home}</strong>
+                        </div>
+                        <div class="odd-badge">
+                            <span>Hòa</span>
+                            <strong>${match.odds.draw}</strong>
+                        </div>
+                        <div class="odd-badge">
+                            <span>Khách</span>
+                            <strong>${match.odds.away}</strong>
+                        </div>
+                    </div>
+                    <div class="match-actions">
+                        <button class="btn-match btn-bet" onclick='goToBetting(${JSON.stringify(match)})'>
+                            <i class="fas fa-ticket-alt"></i> Đặt Cược
+                        </button>
+                        <button class="btn-match btn-info" onclick='showMatchInfo(${JSON.stringify(match)})'>
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Store matches data for later use
+            localStorage.setItem('allMatches', JSON.stringify(matches));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!loadUser()) {
+                return;
+            }
+            updateBalanceUI();
+            renderMatches();
+
+            // Update team names in modal
+            document.getElementById('modalHomeTeam2').textContent = '';
+            document.getElementById('modalAwayTeam2').textContent = '';
+
+            // Close modal on click outside
+            document.getElementById('matchInfoModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeMatchInfo();
+                }
+            });
         });
     </script>
 </body>
